@@ -9,36 +9,9 @@ import {
   Platform,
   StyleSheet,
   Text,
-  View
+  View,
+  TouchableOpacity
 } from 'react-native';
-
-import {
-  StackNavigator,
-  TabNavigator
-} from 'react-navigation';
-
-import HomePageVC from './views/HomePage'
-import TegongVC from './views/Tegong'
-import MessageVC from './views/Message'
-import MyVC from './views/My'
-import DetailVC from './views/Detail'
-
-// 通过TabNavigator做路由映射
-const MainScreentNavigator=TabNavigator({
-  HomePageVC:{screen:HomePageVC},
-  TegongVC:{screen:TegongVC},
-  MessageVC:{screen:MessageVC},
-  MyVC:{screen:MyVC},
-});
-
-//引入要用到的跳转页面
-const  MyNavigatior = StackNavigator({
-  Main:{screen:MainScreentNavigator},
-  DetailVC:{screen:DetailVC},
-});
-
-
-
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' +
@@ -47,11 +20,31 @@ const instructions = Platform.select({
     'Shake or press menu button for dev menu',
 });
 
-export default class App extends Component<{}> {
+export default class Detail extends Component<{}> {
+
+    //接收上一个页面传过来的title显示出来
+    static navigationOptions = ({ navigation }) => ({
+        title: navigation.state.params.title
+    });
+
+    // 点击返回上一页方法
+    backVC=()=>{
+        //返回首页方法
+        this.props.navigation.goBack();
+    }
+
   render() {
-    return (
+      const { navigate } = this.props.navigation;
+
+      return (
       <View style={styles.container}>
-        {<MyNavigatior/>}
+        <TouchableOpacity style={{
+            height:40,
+            backgroundColor:'green',
+            justifyContent: 'center'}}
+                          onPress={() =>{this.backVC()}}>
+          <Text>{this.props.navigation.state.params.des}</Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -75,3 +68,4 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
 });
+

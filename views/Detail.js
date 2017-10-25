@@ -24,7 +24,9 @@ export default class Detail extends Component<{}> {
 
     //接收上一个页面传过来的title显示出来
     static navigationOptions = ({ navigation }) => ({
-        title: navigation.state.params.title
+        title: navigation.state.params.title,
+        headerBackTitle:'返回',  //导航栏返回按钮文字
+        headerBackTitleStyle:{backgroundColor:'red',color:'white'}, //返回按钮样式设置
     });
 
     // 点击返回上一页方法
@@ -33,8 +35,11 @@ export default class Detail extends Component<{}> {
         this.props.navigation.goBack();
     }
 
+
   render() {
-      const { navigate } = this.props.navigation;
+      // const { navigate } = this.props.navigation;
+
+
 
       return (
       <View style={styles.container}>

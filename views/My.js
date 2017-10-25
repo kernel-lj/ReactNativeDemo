@@ -9,7 +9,8 @@ import {
   Platform,
   StyleSheet,
   Text,
-  View
+  View,
+    Image
 } from 'react-native';
 
 const instructions = Platform.select({
@@ -24,7 +25,20 @@ export default class My extends Component<{}> {
     static navigationOptions = {
         headerTitle: '我的1',
         tabBarLabel: '我的',
-        tabBarIcon:<View style={{height:30,width:30,backgroundColor:'red'}}></View>
+        // tabBarIcon:<Image source={require("../img/btn_mine_normal.png")} style={{height:30,width:30}}></Image>,
+        tabBarIcon: ({tintColor,focused}) => (
+            focused
+                ?
+                <Image
+                    source={require("../img/btn_mine_selected.png")}
+                    style={{width:30,height:30}}
+                />
+                :
+                <Image
+                    source={require("../img/btn_mine_normal.png")}
+                    style={{width:30,height:30}}
+                />
+        ),
     };
 
 
@@ -44,16 +58,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
   },
 });
 

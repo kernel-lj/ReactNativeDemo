@@ -10,7 +10,8 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableOpacity
+  TouchableOpacity,
+    Image
 } from 'react-native';
 
 import {StackNavigator, TabBarBottom, TabNavigator} from "react-navigation"
@@ -26,8 +27,21 @@ export default class Tegong extends Component<{}> {
     static navigationOptions = {
         headerTitle: '特工1',
         tabBarLabel: '特工',
+        // tabBarIcon:<Image source={require("../img/tegong.png")} style={{height:30,width:30}}></Image>,
 
-        tabBarIcon:<View style={{height:30,width:30,backgroundColor:'red'}}></View>
+        tabBarIcon: ({tintColor,focused}) => (
+            focused
+                ?
+                <Image
+                    source={require("../img/tegongSelected.png")}
+                    style={{width:30,height:30}}
+                />
+                :
+                <Image
+                    source={require("../img/tegong.png")}
+                    style={{width:30,height:30}}
+                />
+        ),
     };
 
   render() {

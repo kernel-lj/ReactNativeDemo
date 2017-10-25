@@ -10,7 +10,8 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableOpacity
+  TouchableOpacity,
+    Image,
 } from 'react-native';
 
 const instructions = Platform.select({
@@ -23,11 +24,37 @@ const instructions = Platform.select({
 export default class HomePage extends Component<{}> {
 
     static navigationOptions = {
-        headerTitle: '首页1',//对页面的配置
+        headerTitle: '首页1',//导航栏文字
+        headerBackTitle:'返回',  //导航栏返回按钮文字
+        headerBackTitleStyle:{backgroundColor:'red'},
+        // header:null, //隐藏导航栏
+        headerLeft:<Text>左边Header</Text>, //导航栏左侧item
+        headerRight: <Text>右边Header</Text>, //导航栏右侧item
+        headerStyle:{backgroundColor:'#e5e5e5',height:64}, //导航栏样式
+        headerTintColor:'red', //导航栏文字颜色
+
         tabBarLabel: '首页',
-        headerBackTitle:'返回',
-        tabBarIcon:<View style={{height:30,width:30,backgroundColor:'red'}}></View>
-      };
+        // tabBarIcon:<Image source={require("../img/btn_home_normal.png")}
+        //                   style={{height:30,width:30,}}></Image>,
+        tabBarIcon: ({tintColor,focused}) => (
+            focused
+                ?
+                <Image
+                    source={require("../img/btn_home_selected.png")}
+                    style={{width:30,height:30}}
+                />
+                :
+                <Image
+                    source={require("../img/btn_home_normal.png")}
+                    style={{width:30,height:30}}
+                />
+        ),
+
+
+    };
+
+
+
 
   render() {
     const { navigate } = this.props.navigation;

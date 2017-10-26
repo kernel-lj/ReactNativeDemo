@@ -17,7 +17,7 @@ import {
 } from 'react-native';
 
 import MyCommonCell from './MySubViews/MyCommonCell'
-
+import VerificationLogin from './LoginViews/VerificationLogin'
 Dimensions = require('Dimensions');
 ScreenWidth = Dimensions.get('window').width;
 ScreenHeight = Dimensions.get('window').height;
@@ -26,7 +26,7 @@ ScreenScale = Dimensions.get('window').scale;
 export default class My extends Component<{}> {
 
     static navigationOptions = {
-        headerTitle: '我的1',
+        headerTitle: ' ',
         tabBarLabel: '我的',
         header:null, //隐藏导航栏
         tabBarIcon: ({tintColor,focused}) => (
@@ -47,7 +47,6 @@ export default class My extends Component<{}> {
 
 
   render() {
-      const { navigate } = this.props.navigation;
 
       return (
           <ScrollView
@@ -71,6 +70,7 @@ export default class My extends Component<{}> {
 
   //////////////////////////////////////////////////////////////////
     addTopView(){
+
         return(
             <ImageBackground source={require("../img/bg_personal.png")} style={styles.imageStyle}  >
                 <TouchableOpacity activeOpacity={1} onPress={this.clickHeadPortraitView} >
@@ -87,6 +87,10 @@ export default class My extends Component<{}> {
         );
     }
 
+    clickHeadPortraitView=()=>{
+        const { navigate } = this.props.navigation;
+         navigate('VerificationLoginVC', { title: '验证码登录'})
+    }
 
     addOtherView(){
         return(

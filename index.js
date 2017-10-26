@@ -13,6 +13,9 @@ import TegongVC from './views/Tegong'
 import MessageVC from './views/Message'
 import MyVC from './views/My'
 import DetailVC from './views/Detail'
+import VerificationLoginVC from './views/LoginViews/VerificationLogin'
+import PassWordLoginVC from  './views/LoginViews/PasswordLogin'
+import RegisterView from  './views/LoginViews/RegisterView'
 
 import {
     StackNavigator,
@@ -27,17 +30,6 @@ import {
 const TabRouteConfigs = {
     HomePageVC:{
         screen:HomePageVC,
-        // navigationOptions: ({navigation}) => ({
-        //     tabBarLabel: '首页',
-        //     tabBarIcon: ({focused, tintColor}) => (
-        //         <TabBarItem
-        //             tintColor={tintColor}
-        //             focused={focused}
-        //             normalImage={require('./img/btn_home_normal.png')}
-        //             selectedImage={require('./img/btn_chat_selected.png')}
-        //         />
-        //     ),
-        // }),
     },
     TeGongVC:{screen:TegongVC},
     MessageVC:{screen:MessageVC},
@@ -69,10 +61,17 @@ const MainScreentNavigator=TabNavigator(TabRouteConfigs,TabNavigatorConfigs);
 const StackNavigatorRouteConfigs = {
     Tab:{screen:MainScreentNavigator},
     DetailVC:{screen:DetailVC},
+    VerificationLoginVC:{screen:VerificationLoginVC},
+    PassWordLoginVC:{screen:PassWordLoginVC},
+    RegisterView:{screen:RegisterView},
+    
+    
+    
+
 }
 
 const StackNavigatorConfig = {
-    mode: 'modal',
+    // mode: 'modal',
 }
 //引入要用到的跳转页面
 const  MyNavigatior = StackNavigator(StackNavigatorRouteConfigs,StackNavigatorConfig);

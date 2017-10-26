@@ -45,8 +45,7 @@ const TabRouteConfigs = {
 };
 
 const TabNavigatorConfigs = {
-    initialRouteName: 'HomePageVC',
-    // tabBarComponent: TabBarTop,
+    initialRouteName: 'MyVC',
     tabBarPosition: 'bottom',
     lazy: true,
 

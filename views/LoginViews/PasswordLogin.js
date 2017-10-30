@@ -98,7 +98,10 @@ export default class PasswordLogin extends Component<{}> {
                     <Text>{this.props.title}</Text>
                 </TouchableOpacity>
 
+                <TouchableOpacity onPress={this.jumpToRegisterView11}>
                 <Text>{this.props.subTitle}</Text>
+                </TouchableOpacity>
+
             </View>
         )
        }
@@ -109,6 +112,25 @@ export default class PasswordLogin extends Component<{}> {
         const { navigate } = this.props.navigation;
         navigate('RegisterView', { title: '注册'})  
       }
+
+    jumpToRegisterView11=()=>{
+        // const { navigate } = this.props.navigation;
+        // navigate('RegisterView', { title: '注册'})
+        const { state, goBack } = this.props.navigation;
+        const params = state.params;
+
+        // this.props.navigation.goBack(this.props.navigation.state.params.keys. A_key);
+        console.log(44444444);
+
+        console.log(params);
+
+        // goBack(params.keys.MyVC);
+        // goBack(params.key);
+        goBack(state.key);
+
+
+    }
+
 
 }
 

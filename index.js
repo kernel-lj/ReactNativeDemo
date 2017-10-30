@@ -64,10 +64,6 @@ const StackNavigatorRouteConfigs = {
     VerificationLoginVC:{screen:VerificationLoginVC},
     PassWordLoginVC:{screen:PassWordLoginVC},
     RegisterView:{screen:RegisterView},
-    
-    
-    
-
 }
 
 const StackNavigatorConfig = {

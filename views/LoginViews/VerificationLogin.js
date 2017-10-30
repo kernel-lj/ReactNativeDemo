@@ -59,11 +59,11 @@ export default class VerificationLogin extends Component<{}> {
 
   }
 
-
+    // 请输入11位手机号码
     renderTextInputs(){
         return(
             <View style={styles.TextInputSuperViewStyle} >
-                <TextInput placeholder='请输入11位手机号码' style={styles.textInputStyle}>
+                <TextInput placeholder='11111111111' style={styles.textInputStyle}>
 
                 </TextInput>
 
@@ -104,10 +104,22 @@ export default class VerificationLogin extends Component<{}> {
        }
     }
 
+    // 'B',{keys:{ A_key:this.props.navigation.state.key,}}
+
     jumpToPasswordView=()=>{
-        const { navigate } = this.props.navigation;
-        navigate('PassWordLoginVC', { title: '密码登录'})  
-      }
+
+
+
+        const { state,navigate } = this.props.navigation;
+        navigate('PassWordLoginVC', { title: '密码登录',
+            // keys:{ MyVC:this.props.navigation.state.key,},
+            // key:state.key,
+
+        })
+        console.log(6666);
+        console.log(state.key);
+
+    }
 
 
 }

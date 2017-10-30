@@ -44,6 +44,9 @@ export default class My extends Component<{}> {
         ),
     };
 
+    static  defaultProps = {
+        title:'验证码登录',
+    }
 
 
   render() {
@@ -88,8 +91,20 @@ export default class My extends Component<{}> {
     }
 
     clickHeadPortraitView=()=>{
-        const { navigate } = this.props.navigation;
-         navigate('VerificationLoginVC', { title: '验证码登录'})
+        const {state, navigate } = this.props.navigation;
+         navigate(
+             'VerificationLoginVC',
+             {
+                 title: this.props.title,
+                 name:'liutianliang',
+                 key:state.key,
+             },
+             )
+
+
+        console.log(555555);
+        console.log(state.key);
+
     }
 
     addOtherView(){

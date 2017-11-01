@@ -14,6 +14,7 @@ import {
   TextInput,
     TouchableOpacity
 } from 'react-native';
+import { NavigationActions } from 'react-navigation'
 
 Dimensions = require('Dimensions');
 ScreenWidth = Dimensions.get('window').width;
@@ -109,24 +110,47 @@ export default class PasswordLogin extends Component<{}> {
 
 
     jumpToRegisterView=()=>{
-        const { navigate } = this.props.navigation;
-        navigate('RegisterView', { title: '注册'})  
+        // const { navigate } = this.props.navigation;
+        // navigate('RegisterView', { title: '注册'})
+
+        const navigateAction = NavigationActions.navigate({
+
+            routeName: 'RegisterView',
+
+            params: {title: this.props.title},
+            key:'cctv3'
+            // action: NavigationActions.navigate({ routeName: ''})
+        })
+
+        this.props.navigation.dispatch(navigateAction)
       }
 
     jumpToRegisterView11=()=>{
         // const { navigate } = this.props.navigation;
         // navigate('RegisterView', { title: '注册'})
-        const { state, goBack } = this.props.navigation;
-        const params = state.params;
+        // const { state, goBack } = this.props.navigation;
+        // const params = state.params;
+        //
+        // // this.props.navigation.goBack(this.props.navigation.state.params.keys. A_key);
+        // console.log(44444444);
+        //
+        // console.log(params);
+        //
+        // // goBack(params.keys.MyVC);
+        // // goBack(params.key);
+        // goBack(state.key);
 
-        // this.props.navigation.goBack(this.props.navigation.state.params.keys. A_key);
-        console.log(44444444);
 
-        console.log(params);
+        const navigateAction = NavigationActions.navigate({
 
-        // goBack(params.keys.MyVC);
-        // goBack(params.key);
-        goBack(state.key);
+            routeName: 'RegisterView',
+
+            params: {title: this.props.title},
+            key:'cctv1'
+            // action: NavigationActions.navigate({ routeName: ''})
+        })
+
+        this.props.navigation.dispatch(navigateAction)
 
 
     }

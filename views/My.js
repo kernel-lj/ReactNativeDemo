@@ -15,6 +15,7 @@ import {
   TouchableOpacity,
     ImageBackground
 } from 'react-native';
+import { NavigationActions } from 'react-navigation'
 
 import MyCommonCell from './MySubViews/MyCommonCell'
 import VerificationLogin from './LoginViews/VerificationLogin'
@@ -45,7 +46,7 @@ export default class My extends Component<{}> {
     };
 
     static  defaultProps = {
-        title:'验证码登录',
+        title:'验证码登录11',
     }
 
 
@@ -90,20 +91,27 @@ export default class My extends Component<{}> {
         );
     }
 
-    clickHeadPortraitView=()=>{
-        const {state, navigate } = this.props.navigation;
-         navigate(
-             'VerificationLoginVC',
-             {
-                 title: this.props.title,
-                 name:'liutianliang',
-                 key:state.key,
-             },
-             )
+    clickHeadPortraitView=()=> {
+        // const {state, navigate } = this.props.navigation;
+        //  navigate(
+        //      'VerificationLoginVC',
+        //      {
+        //          title: this.props.title,
+        //          name:'liutianliang',
+        //          key:state.key,
+        //      },
+        //      )
+        //
+        //
+        console.log(555555666);
+        // console.log(state.key);
 
-
-        console.log(555555);
-        console.log(state.key);
+        const navigateAction = NavigationActions.navigate({
+            routeName: 'VerificationLoginVC',
+            params: {title: this.props.title},
+            key: 'cctv1'
+        });
+        this.props.navigation.dispatch(navigateAction);
 
     }
 

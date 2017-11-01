@@ -14,6 +14,7 @@ import {
   TextInput,
     TouchableOpacity
 } from 'react-native';
+import { NavigationActions } from 'react-navigation'
 
 Dimensions = require('Dimensions');
 ScreenWidth = Dimensions.get('window').width;
@@ -102,7 +103,9 @@ export default class PasswordLogin extends Component<{}> {
                     <Text>{this.props.title}</Text>
                 </TouchableOpacity>
 
-                <Text>{this.props.subTitle}</Text>
+                <TouchableOpacity onPress={this.jumpToRegisterView11}>
+                    <Text>{this.props.subTitle}</Text>
+                </TouchableOpacity>
             </View>
         )
        }
@@ -113,6 +116,20 @@ export default class PasswordLogin extends Component<{}> {
         const { navigate } = this.props.navigation;
         navigate('PassWordLoginVC', { title: '注册'})  
       }
+
+    jumpToRegisterView11=()=>{
+        console.log(777777);
+
+
+        const backAction = NavigationActions.back({
+            key: 'cctv2',
+        })
+        this.props.navigation.dispatch(backAction)
+
+
+
+
+    }
 
 }
 

@@ -14,6 +14,7 @@ import {
   TextInput,
     TouchableOpacity
 } from 'react-native';
+import { NavigationActions } from 'react-navigation'
 
 Dimensions = require('Dimensions');
 ScreenWidth = Dimensions.get('window').width;
@@ -110,14 +111,27 @@ export default class VerificationLogin extends Component<{}> {
 
 
 
-        const { state,navigate } = this.props.navigation;
-        navigate('PassWordLoginVC', { title: '密码登录',
-            // keys:{ MyVC:this.props.navigation.state.key,},
-            // key:state.key,
+        // const { state,navigate } = this.props.navigation;
+        // navigate('PassWordLoginVC', { title: '密码登录',
+        //     // keys:{ MyVC:this.props.navigation.state.key,},
+        //     // key:state.key,
+        //
+        // })
+        // console.log(6666);
+        // console.log(state.key);
 
+        const navigateAction = NavigationActions.navigate({
+
+            routeName: 'PassWordLoginVC',
+
+            params: {title: this.props.title},
+            key:'cctv2'
+            // action: NavigationActions.navigate({ routeName: ''})
         })
-        console.log(6666);
-        console.log(state.key);
+
+        this.props.navigation.dispatch(navigateAction)
+
+
 
     }
 

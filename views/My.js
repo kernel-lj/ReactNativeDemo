@@ -77,7 +77,7 @@ export default class My extends Component<{}> {
 
         return(
             <ImageBackground source={require("../img/bg_personal.png")} style={styles.imageStyle}  >
-                <TouchableOpacity activeOpacity={1} onPress={this.clickHeadPortraitView} >
+                <TouchableOpacity activeOpacity={1} onPress={this.clickHeadPortraitView.bind(this)} >
                     <View style={styles.subView}>
                         <Image source={require("../img/default.png")} style={styles.headPortraitStyle}>
                         </Image>
@@ -91,7 +91,7 @@ export default class My extends Component<{}> {
         );
     }
 
-    clickHeadPortraitView=()=> {
+    clickHeadPortraitView(){
         // const {state, navigate } = this.props.navigation;
         //  navigate(
         //      'VerificationLoginVC',

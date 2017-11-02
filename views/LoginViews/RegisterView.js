@@ -47,6 +47,7 @@ export default class PasswordLogin extends Component<{}> {
       <View style={styles.container}>
           <View style={styles.innerViewStyle}>
 
+
               {/*添加TextInputs*/}
               {this.renderTextInputs()}
 

@@ -12,7 +12,8 @@ import {
   Text,
   View,
   TextInput,
-    TouchableOpacity
+    TouchableOpacity,
+
 } from 'react-native';
 import { NavigationActions } from 'react-navigation'
 
@@ -36,7 +37,11 @@ export default class VerificationLogin extends Component<{}> {
     static  defaultProps = {
         title:'密码登录',
         subTitle:'无法收取验证码?',
-    } 
+    }
+
+    // static  propTypes = {
+    //     name:PropTypes.string.isRequired,
+    // }
 
   render() {
       // const { navigate } = this.props.navigation

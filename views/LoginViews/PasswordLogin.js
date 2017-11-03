@@ -109,21 +109,31 @@ export default class PasswordLogin extends Component<{}> {
     }
 
 
-    jumpToRegisterView=()=>{
-        // const { navigate } = this.props.navigation;
-        // navigate('RegisterView', { title: '注册'})
+    jumpToRegisterView=()=> {
+        const {state,navigate} = this.props.navigation;
+        navigate('RegisterView',
+            {
+                title: '注册',
+                keys: {...this.props.navigation.state.params.keys, C_key: this.props.navigation.state.key}
 
-        const navigateAction = NavigationActions.navigate({
+            })
 
-            routeName: 'RegisterView',
+        console.log(77777777);
+        console.log(state.params);
 
-            params: {title: this.props.title},
-            key:'cctv3'
-            // action: NavigationActions.navigate({ routeName: ''})
-        })
+    }
 
-        this.props.navigation.dispatch(navigateAction)
-      }
+      //   const navigateAction = NavigationActions.navigate({
+      //
+      //       routeName: 'RegisterView',
+      //
+      //       params: {title: this.props.title},
+      //       key:'cctv3'
+      //       // action: NavigationActions.navigate({ routeName: ''})
+      //   })
+      //
+      //   this.props.navigation.dispatch(navigateAction)
+      // }
 
     jumpToRegisterView11=()=>{
         // const { navigate } = this.props.navigation;

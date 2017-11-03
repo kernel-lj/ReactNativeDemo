@@ -116,25 +116,25 @@ export default class VerificationLogin extends Component<{}> {
 
 
 
-        // const { state,navigate } = this.props.navigation;
-        // navigate('PassWordLoginVC', { title: '密码登录',
-        //     // keys:{ MyVC:this.props.navigation.state.key,},
-        //     // key:state.key,
-        //
-        // })
-        // console.log(6666);
-        // console.log(state.key);
+        const { state,navigate } = this.props.navigation;
+        navigate('PassWordLoginVC', { title: '密码登录',
+            // keys:{ MyVC:this.props.navigation.state.key,},
+            keys:{...this.props.navigation.state.params.keys,B_key:this.props.navigation.state.key}
 
-        const navigateAction = NavigationActions.navigate({
-
-            routeName: 'PassWordLoginVC',
-
-            params: {title: this.props.title},
-            key:'cctv2'
-            // action: NavigationActions.navigate({ routeName: ''})
         })
+        console.log(6666);
+        console.log(state.params);
 
-        this.props.navigation.dispatch(navigateAction)
+        // const navigateAction = NavigationActions.navigate({
+        //
+        //     routeName: 'PassWordLoginVC',
+        //
+        //     params: {title: this.props.title},
+        //     key:'cctv2'
+        //     // action: NavigationActions.navigate({ routeName: ''})
+        // })
+        //
+        // this.props.navigation.dispatch(navigateAction)
 
 
 

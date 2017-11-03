@@ -119,14 +119,16 @@ export default class PasswordLogin extends Component<{}> {
       }
 
     jumpToRegisterView11=()=>{
-        console.log(777777);
+        console.log(888888888);
 
 
-        const backAction = NavigationActions.back({
-            key: 'cctv2',
-        })
-        this.props.navigation.dispatch(backAction)
-
+        // const backAction = NavigationActions.back({
+        //     key: 'cctv2',
+        // })
+        // this.props.navigation.dispatch(backAction)
+        const { goBack,state} = this.props.navigation;
+        goBack(state.params.keys.B_key); //修改B_key 可以返回到不同的页面
+        console.log(state.params);
 
 
 

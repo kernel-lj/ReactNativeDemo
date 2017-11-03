@@ -92,26 +92,26 @@ export default class My extends Component<{}> {
     }
 
     clickHeadPortraitView(){
-        // const {state, navigate } = this.props.navigation;
-        //  navigate(
-        //      'VerificationLoginVC',
-        //      {
-        //          title: this.props.title,
-        //          name:'liutianliang',
-        //          key:state.key,
-        //      },
-        //      )
+        const {state, navigate } = this.props.navigation;
+         navigate(
+             'VerificationLoginVC',
+             {
+                 title: this.props.title,
+                 name:'liutianliang',
+                 keys:{ A_key:this.props.navigation.state.key,}
+             },
+             )
         //
         //
         console.log(555555666);
-        // console.log(state.key);
-
-        const navigateAction = NavigationActions.navigate({
-            routeName: 'VerificationLoginVC',
-            params: {title: this.props.title},
-            key: 'cctv1'
-        });
-        this.props.navigation.dispatch(navigateAction);
+        // // console.log(state.key);
+        //
+        // const navigateAction = NavigationActions.navigate({
+        //     routeName: 'VerificationLoginVC',
+        //     params: {title: this.props.title},
+        //     key: 'cctv1'
+        // });
+        // this.props.navigation.dispatch(navigateAction);
 
     }
 

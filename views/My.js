@@ -122,20 +122,7 @@ export default class My extends Component<{}> {
     <ImageBackground source={require('../img/bg_personal.png')} style={styles.imageStyle}>
       <TouchableOpacity
         activeOpacity={1}
-        onPress={
-          () => {
-            const { navigate } = this.props.navigation;
-            navigate(
-              'VerificationLoginVC',
-              {
-                title: this.props.title,
-                name: 'liutianliang',
-                keys: { A_key: this.props.navigation.state.key },
-              },
-            );
-          }
-          // this.clickHeadPortraitView
-        }
+        onPress={() => this.clickHeadPortraitView()}
       >
         <View style={styles.subView}>
           <Image source={require('../img/default.png')} style={styles.headPortraitStyle} />
@@ -148,17 +135,14 @@ export default class My extends Component<{}> {
     </ImageBackground>
   )
 
-  clickHeadPortraitView() {
-    console.log(111111111);
-
-    console.log(this);
+  clickHeadPortraitView=() => {
     // const { navigate } = this.props.navigation;
     // eslint-disable-next-line no-unused-vars
     const { navigate } = this.props.navigation;
     navigate(
       'VerificationLoginVC',
       {
-        title: that.props.title,
+        title: this.props.title,
         name: 'liutianliang',
         keys: { A_key: this.props.navigation.state.key },
       },

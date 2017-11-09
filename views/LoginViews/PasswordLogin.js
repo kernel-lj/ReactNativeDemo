@@ -75,7 +75,7 @@ export default class PasswordLogin extends Component<{}> {
     // 接收上一个页面传过来的title显示出来
     static navigationOptions = ({ navigation }) => ({
       title: navigation.state.params.title,
-      headerBackTitle:null,
+      headerBackTitle: null,
       // headerLeft:<Text>自定义返回按钮</Text>, //导航栏左侧item
     });
 
@@ -108,7 +108,7 @@ export default class PasswordLogin extends Component<{}> {
       }
     }
 
-  jumpToRegisterView=()=> {
+  jumpToRegisterView=() => {
     const {state,navigate} = this.props.navigation;
     navigate('RegisterView',
       {
@@ -144,7 +144,7 @@ export default class PasswordLogin extends Component<{}> {
       routeName: 'RegisterView',
 
       params: {title: this.props.title},
-      key: 'cctv1'
+      key: 'cctv1',
       // action: NavigationActions.navigate({ routeName: ''})
     })
 

@@ -1,4 +1,7 @@
 import { AppRegistry } from 'react-native';
+
+import getSlideFromRightTransition from 'react-navigation-slide-from-right-transition';
+
 import {
   StackNavigator,
   TabNavigator,
@@ -53,7 +56,9 @@ const StackNavigatorRouteConfigs = {
 };
 
 const StackNavigatorConfig = {
-  // mode: 'modal',
+  // mode: 'card',
+  transitionConfig: getSlideFromRightTransition,
+
 };
 // 引入要用到的跳转页面
 const MyNavigator = StackNavigator(StackNavigatorRouteConfigs, StackNavigatorConfig);

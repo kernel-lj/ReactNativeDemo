@@ -5,6 +5,8 @@
  */
 
 import React, { Component } from 'react';
+import { observable, autorun } from 'mobx';
+
 import {
   StyleSheet,
   View,
@@ -27,6 +29,8 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
 });
+
+
 
 export default class Message extends Component<{}> {
   static navigationOptions = {

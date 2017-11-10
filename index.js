@@ -1,6 +1,6 @@
 import { AppRegistry } from 'react-native';
 
-import getSlideFromRightTransition from 'react-navigation-slide-from-right-transition';
+import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/CardStackStyleInterpolator';
 
 import {
   StackNavigator,
@@ -56,10 +56,13 @@ const StackNavigatorRouteConfigs = {
 };
 
 const StackNavigatorConfig = {
-  // mode: 'card',
-  transitionConfig: getSlideFromRightTransition,
+  transitionConfig: (() => ({
+    // forHorizontal:从右向左进入、forVertical:从下向上进入、forFadeFromBottomAndroid:从底部淡出。
+    screenInterpolator: CardStackStyleInterpolator.forHorizontal,
+  })),
 
 };
+
 // 引入要用到的跳转页面
 const MyNavigator = StackNavigator(StackNavigatorRouteConfigs, StackNavigatorConfig);
 

@@ -104,13 +104,34 @@ export default class VerificationLogin extends Component<{}> {
               <Text>{this.props.title}</Text>
             </TouchableOpacity>
 
-            <Text>{this.props.subTitle}</Text>
+            <TouchableOpacity onPress={this.jumpToPasswordView11}>
+              <Text>{this.props.subTitle}</Text>
+            </TouchableOpacity>
           </View>
         );
       }
     }
 
     // 'B',{keys:{ A_key:this.props.navigation.state.key,}}
+
+
+    jumpToPasswordView11=() => {
+      const { goBack } = this.props.navigation;
+      // navigate(
+      //   'PassWordLoginVC',
+      //   {
+      //     title: '密码登录',
+      //     keys:
+      //       {
+      //         ...this.props.navigation.state.params.keys,
+      //         B_key: this.props.navigation.state.key,
+      //       },
+      //   },
+      // );
+      console.log(6666);
+      this.props.navigation.goBack();
+      // console.log(state.params);
+    }
 
     jumpToPasswordView=() => {
       const { state, navigate } = this.props.navigation;

@@ -14,14 +14,14 @@ import {
 
 import {
   StackNavigator,
-  TabNavigator
+  TabNavigator,
 } from 'react-navigation';
 
-import HomePageVC from './views/HomePage'
-import TegongVC from './views/Tegong'
-import MessageVC from './views/Message'
-import MyVC from './views/My'
-import DetailVC from './views/Detail'
+import HomePageVC from './views/HomePage';
+import TegongVC from './views/Tegong';
+import MessageVC from './views/Message';
+import MyVC from './views/My';
+import DetailVC from './views/Detail';
 
 // 通过TabNavigator做路由映射
 const MainScreentNavigator=TabNavigator({
@@ -31,7 +31,7 @@ const MainScreentNavigator=TabNavigator({
   MyVC:{screen:MyVC},
 });
 
-//引入要用到的跳转页面
+// 引入要用到的跳转页面
 const  MyNavigatior = StackNavigator({
   Main:{screen:MainScreentNavigator},
   DetailVC:{screen:DetailVC},

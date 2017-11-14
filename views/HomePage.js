@@ -20,7 +20,7 @@ import HomePageCell from './HomePageSubViews/HomePageCell'
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'red',
+    backgroundColor: '#FAF8F0',
   },
   item: {
     padding: 10,
@@ -28,23 +28,29 @@ const styles = StyleSheet.create({
     height: 44,
     // fontColor: 'black',
   },
+  txt: {
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    color: 'white',
+    fontSize: 30,
+  }
 });
 
 export default class HomePage extends Component<{}> {
   static navigationOptions = {
     headerTitle: '首页', // 导航栏文字
     headerBackTitle: null, // 导航栏返回按钮文字
-    headerBackTitleStyle: {backgroundColor: 'red'},
+    headerBackTitleStyle: { backgroundColor: 'red' },
     // header:null, //隐藏导航栏
     headerLeft: <Text>左边Header</Text>, // 导航栏左侧item
-    headerRight: <Text onPress={() => {console.log(9999999)}} >右边Header</Text>, // 导航栏右侧item
-    headerStyle: {backgroundColor: '#e5e5e5', height: 44}, // 导航栏样式
+    headerRight: <Text onPress={() => { console.log(9999999); }} >右边Header</Text>, // 导航栏右侧item
+    headerStyle: { backgroundColor: '#e5e5e5', height: 44 }, // 导航栏样式
     headerTintColor: 'red', // 导航栏文字颜色
 
     tabBarLabel: '首页',
     // tabBarIcon:<Image source={require("../img/btn_home_normal.png")}
     //                   style={{height:30,width:30,}}></Image>,
-    tabBarIcon: ({focused}) => (
+    tabBarIcon: ({ focused }) => (
       focused ?
         <Image
 
@@ -113,34 +119,27 @@ export default class HomePage extends Component<{}> {
         return res.json();
       })
       .then(res => {
-        console.log(77777);
-        console.log(res.data[0]);
+        // console.log(77777);
+        // console.log(res.data);
         var listData = res.data;
-        // for (var i=0; i<res.data.length; i++){
-        //   // console.log(6666666);
-        //   listData.push(res.data);
-        // }
-
-
-        // let i = 0;
-        // res.map((item) => {
-        //   listData.push({
-        //     key:i,
-        //     value:item
-        //   })
-        //   i++;
-        // })
+        var finalData = [];
          this.setState({
           // data: [...this.state.data, ...res],
            data:listData,
          });
-        console.log(6666666);
-        // console.log(listData[1]);
+        // console.log(6666666);
+        // console.log(listData);
       })
       .catch(err => {
         // this.setState({ error: err, loading: false, refreshing: false});
       });
   };
+
+
+  renderItem = ({ item, index }) => (
+    <HomePageCell data={item} index={index} />
+  );
+
 
   render() {
     const {navigate} = this.props.navigation;
@@ -157,11 +156,17 @@ export default class HomePage extends Component<{}> {
 
 
         <FlatList
-                  data = {this.state.data}
-              // keyExtractor={item => item.id}
-
-             renderItem={({ item }) => <Text style={styles.item}>{item.nickname}</Text>}
-            // renderItem={({ item }) => <HomePageCell data=this.state.data />}
+          data={this.state.data}
+          ListHeaderComponent={() => <Text style={{ textAlign: 'center',
+            textAlignVertical: 'center',   height: 30, backgroundColor: 'orange' }}>这是头部</Text>}
+          ListFooterComponent={() => <Text style={{ textAlign: 'center',
+            textAlignVertical: 'center',   height: 30, backgroundColor: 'orange' }}>这是尾部</Text>}
+          ItemSeparatorComponent={() => <View style={{ height: 5, backgroundColor: 'red' }} />}
+          // 为每个cell生成一个index
+          keyExtractor={(item, index) => index}
+          // renderItem={({ item, index }) => <Text style={styles.item}>{index}</Text>}
+          //  renderItem={({ item }) => <HomePageCell data={item} index={item.id} />}
+          renderItem={this.renderItem}
 
         />
       </View>

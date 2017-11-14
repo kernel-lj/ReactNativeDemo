@@ -6,6 +6,8 @@ import {
   Text,
   View,
   Image,
+  TouchableOpacity,
+  Alert,
 } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -41,25 +43,32 @@ const styles = StyleSheet.create({
 
 class HomePageCell extends Component {
   static defaultProps = {
-    data: { nickname: '' },
-
-    // anchor_city: '2224',
+    data: { },
+    index: '',
   }
 
 
   componentDidMount() {
-    console.log('11111110000');
-    console.log(this.props.data);
+    // console.log('11111110000');
+    // console.log(this.props.data);
   }
+
+  pressItem = () => {
+    Alert.alert(this.props.index.toString());
+  };
 
   render() {
     return (
-      <View style={styles.itemStyle}>
-        <Image style={styles.itemHeadStyle} source={require('../../img/headImage.png')} />
-        <Text style={styles.itemTextStyle}>{this.props.data.nickname}</Text>
+      <View >
+        <TouchableOpacity onPress={() => this.pressItem()}>
+          <View style={styles.itemStyle}>
+            <Image style={styles.itemHeadStyle} source={{ uri: this.props.data.avatar_small }} />
+            <Text style={styles.itemTextStyle}>{this.props.data.nickname}</Text>
 
-        <Text style={styles.itemArrowStyle}>{this.props.data.anchor_city} </Text>
-        {/* <View style={styles.linViewStyles} /> */}
+            <Text style={styles.itemArrowStyle}>{this.props.data.anchor_city} </Text>
+            {/* <View style={styles.linViewStyles} /> */}
+          </View>
+        </TouchableOpacity>
       </View>
     );
   }

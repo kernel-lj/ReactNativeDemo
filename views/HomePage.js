@@ -77,15 +77,15 @@ export default class HomePage extends Component<{}> {
 
     this.state = {
       error: false,
-      page: 1,
+      page: 0,
       refreshing: false,
       loading: false,
-      data: {},
+      data: [],
     };
   }
 
   static defaultProps = {
-    requestUrl : 'http://capi.douyucdn.cn/api/v1/getVerticalRoom?limit=20&offset=0',
+    requestUrl : 'http://capi.douyucdn.cn/api/v1/getVerticalRoom?limit=20&offset=',
   }
 
 
@@ -98,7 +98,7 @@ export default class HomePage extends Component<{}> {
       {
         title: '验证码登录222',
         name: 'liutianliang',
-        keys: {A_key: this.props.navigation.state.key},
+        keys: { A_key: this.props.navigation.state.key },
       },
     );
   };
@@ -109,10 +109,12 @@ export default class HomePage extends Component<{}> {
 
   requestData = () => {
     // console.log(6666666);
+    // console.log(this.props.requestUrl + this.state.page);
 
     // const url = 'https://www.baidu.com';
     // console.log(6666666);
-    fetch(this.props.requestUrl)
+    // let finalData = {};
+    fetch(this.props.requestUrl + this.state.page)
       .then(res => {
         // console.log(res.json());
 
@@ -120,15 +122,15 @@ export default class HomePage extends Component<{}> {
       })
       .then(res => {
         // console.log(77777);
-        // console.log(res.data);
-        var listData = res.data;
-        var finalData = [];
-         this.setState({
+        // console.log(typeof(res.data));
+        const listData = res.data;
+        // finalData.push(listData);
+
+        this.setState({
           // data: [...this.state.data, ...res],
-           data:listData,
-         });
-        // console.log(6666666);
-        // console.log(listData);
+          data: listData.concat(this.state.data),
+          page: this.state.page + 1,
+        });
       })
       .catch(err => {
         // this.setState({ error: err, loading: false, refreshing: false});
@@ -139,6 +141,15 @@ export default class HomePage extends Component<{}> {
   renderItem = ({ item, index }) => (
     <HomePageCell data={item} index={index} />
   );
+  onRefresh=() => {
+    // alert('正在刷新中1.... ');
+    this.setState(
+      {
+        requestUrl : 'http://capi.douyucdn.cn/api/v1/getVerticalRoom?limit=20&offset=2',
+      }
+    );
+    this.requestData();
+  };
 
 
   render() {
@@ -154,7 +165,6 @@ export default class HomePage extends Component<{}> {
         {/*</TouchableOpacity>*/}
 
 
-
         <FlatList
           data={this.state.data}
           ListHeaderComponent={() => <Text style={{ textAlign: 'center',
@@ -167,6 +177,8 @@ export default class HomePage extends Component<{}> {
           // renderItem={({ item, index }) => <Text style={styles.item}>{index}</Text>}
           //  renderItem={({ item }) => <HomePageCell data={item} index={item.id} />}
           renderItem={this.renderItem}
+          onRefresh={this.onRefresh}
+          refreshing={this.state.refreshing}
 
         />
       </View>

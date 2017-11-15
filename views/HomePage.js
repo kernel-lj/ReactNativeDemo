@@ -17,7 +17,6 @@ import {
 
 import HomePageCell from './HomePageSubViews/HomePageCell'
 import { ToastShort } from '../utils/ToastUtil';
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -106,9 +105,6 @@ export default class HomePage extends Component<{}> {
     );
   };
 
-  componentDidMount() {
-    this.netRequest();
-  }
 
   requestData = () => {
     // console.log(6666666);
@@ -146,25 +142,33 @@ export default class HomePage extends Component<{}> {
     <HomePageCell data={item} index={index} />
   );
   onRefresh=() => {
-    this.netRequest();
-
+    this.setState({
+      headerTitle: '正在刷新。。。',
+    });
+    this.requestData();
   };
 
   netRequest=() => {
-    NetInfo.isConnected.fetch().done((isConnected) => {
-      // console.log('First, is ' + (isConnected ? 'online' : 'offline'));
-      if (isConnected) { // 有网
-        this.setState({
-          headerTitle: '正在刷新。。。',
-        });
-        this.requestData();
-      }else { // 无网
-        ToastShort('请检查网络设置');
-        this.setState({
-          headerTitle: '请检查网络设置',
-        });
-      }
-    });
+    // NetInfo.isConnected.fetch().done((isConnected) => {
+    //   console.log('First, is ' + (isConnected ? 'online' : 'offline'));
+    //   if (isConnected) { // 有网
+    //     this.setState({
+    //       headerTitle: '正在刷新。。。',
+    //     });
+    //     this.requestData();
+    //   }else { // 无网
+    //     ToastShort('请检查网络设置');
+    //     this.setState({
+    //       headerTitle: '请检查网络设置',
+    //     });
+    //   }
+    // });
+
+
+    // this.setState({
+    //   headerTitle: '正在刷新。。。',
+    // });
+    // this.requestData();
   }
 
   render() {

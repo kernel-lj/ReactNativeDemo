@@ -10,12 +10,13 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableOpacity,
+  NetInfo,
   Image,
   FlatList,
 } from 'react-native';
 
 import HomePageCell from './HomePageSubViews/HomePageCell'
+import { ToastShort } from '../utils/ToastUtil';
 
 const styles = StyleSheet.create({
   container: {
@@ -81,6 +82,8 @@ export default class HomePage extends Component<{}> {
       refreshing: false,
       loading: false,
       data: [],
+      headerTitle: '这是头部',
+      bottomTitle: '这是尾部',
     };
   }
 
@@ -104,7 +107,7 @@ export default class HomePage extends Component<{}> {
   };
 
   componentDidMount() {
-    this.requestData();
+    this.netRequest();
   }
 
   requestData = () => {
@@ -130,6 +133,7 @@ export default class HomePage extends Component<{}> {
           // data: [...this.state.data, ...res],
           data: listData.concat(this.state.data),
           page: this.state.page + 1,
+          headerTitle: '刷新完成。。。',
         });
       })
       .catch(err => {
@@ -142,15 +146,26 @@ export default class HomePage extends Component<{}> {
     <HomePageCell data={item} index={index} />
   );
   onRefresh=() => {
-    // alert('正在刷新中1.... ');
-    this.setState(
-      {
-        requestUrl : 'http://capi.douyucdn.cn/api/v1/getVerticalRoom?limit=20&offset=2',
-      }
-    );
-    this.requestData();
+    this.netRequest();
+
   };
 
+  netRequest=() => {
+    NetInfo.isConnected.fetch().done((isConnected) => {
+      // console.log('First, is ' + (isConnected ? 'online' : 'offline'));
+      if (isConnected) { // 有网
+        this.setState({
+          headerTitle: '正在刷新。。。',
+        });
+        this.requestData();
+      }else { // 无网
+        ToastShort('请检查网络设置');
+        this.setState({
+          headerTitle: '请检查网络设置',
+        });
+      }
+    });
+  }
 
   render() {
     const {navigate} = this.props.navigation;
@@ -168,9 +183,9 @@ export default class HomePage extends Component<{}> {
         <FlatList
           data={this.state.data}
           ListHeaderComponent={() => <Text style={{ textAlign: 'center',
-            textAlignVertical: 'center',   height: 30, backgroundColor: 'orange' }}>这是头部</Text>}
+            textAlignVertical: 'center',   height: 30, backgroundColor: 'orange' }}>{this.state.headerTitle}</Text>}
           ListFooterComponent={() => <Text style={{ textAlign: 'center',
-            textAlignVertical: 'center',   height: 30, backgroundColor: 'orange' }}>这是尾部</Text>}
+            textAlignVertical: 'center',   height: 30, backgroundColor: 'orange' }}>{this.state.bottomTitle}</Text>}
           ItemSeparatorComponent={() => <View style={{ height: 5, backgroundColor: 'red' }} />}
           // 为每个cell生成一个index
           keyExtractor={(item, index) => index}

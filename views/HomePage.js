@@ -148,13 +148,29 @@ export default class HomePage extends Component<{}> {
   );
 
   onRefresh=() => {
-
+    console.log(this.state.connectionInfo);
     // 首次进来取不到当前的网络状态，为null，所以一秒后在执行一次onRefresh()方法就会取得当前有没有联网
     if (!this.state.connectionInfo) {
       setTimeout(()=>{
         this.onRefresh();
       },1);
+    }else {
+      // 解决 1.当前处于WiFi状态，断开WiFi后，不显示请检查网络设置的问题
+      //     2.当前处于无网状态，断开WiFi后 后,不刷新的问题
+      if (this.state.connectionInfo.type === 'none') {
+        ToastShort('请检查网络设置');
+        this.setState({
+          headerTitle: '请检查网络设置',
+        });
+      }else if (this.state.connectionInfo.type === 'wifi') {
+        this.setState({
+          headerTitle: '正在刷新。。。',
+        });
+        this.requestData();
+      }
     }
+
+
 
 
     if (Platform.OS === 'ios'){

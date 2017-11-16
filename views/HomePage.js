@@ -13,6 +13,7 @@ import {
   NetInfo,
   Image,
   FlatList,
+  Platform,
 } from 'react-native';
 
 import HomePageCell from './HomePageSubViews/HomePageCell'
@@ -76,13 +77,15 @@ export default class HomePage extends Component<{}> {
     super(props);
 
     this.state = {
-      error: false,
+      // error: false,
       page: 0,
       refreshing: false,
-      loading: false,
+      // loading: false,
       data: [],
       headerTitle: '这是头部',
       bottomTitle: '这是尾部',
+      connectionInfo: null,
+      // isConnected: null,
     };
   }
 
@@ -107,12 +110,14 @@ export default class HomePage extends Component<{}> {
 
 
   requestData = () => {
+    // alert('22223333');
     // console.log(6666666);
     // console.log(this.props.requestUrl + this.state.page);
 
     // const url = 'https://www.baidu.com';
     // console.log(6666666);
     // let finalData = {};
+
     fetch(this.props.requestUrl + this.state.page)
       .then(res => {
         // console.log(res.json());
@@ -141,34 +146,70 @@ export default class HomePage extends Component<{}> {
   renderItem = ({ item, index }) => (
     <HomePageCell data={item} index={index} />
   );
+
   onRefresh=() => {
-    this.setState({
-      headerTitle: '正在刷新。。。',
-    });
-    this.requestData();
+
+    // 首次进来取不到当前的网络状态，为null，所以一秒后在执行一次onRefresh()方法就会取得当前有没有联网
+    if (!this.state.connectionInfo) {
+      setTimeout(()=>{
+        this.onRefresh();
+      },1);
+    }
+
+
+    if (Platform.OS === 'ios'){
+      if ( this.state.connectionInfo === 'wifi'  || this.state.connectionInfo === 'mobile') { // 有网
+        this.setState({
+          headerTitle: '正在刷新。。。',
+        });
+        this.requestData();
+      } else if (this.state.connectionInfo === 'none') { // 无网
+        ToastShort('请检查网络设置');
+        this.setState({
+          headerTitle: '请检查网络设置',
+        });
+      }
+
+    }else {
+      if ( this.state.connectionInfo === 'WIFI'  || this.state.connectionInfo === 'MOBILE') { // 有网
+        this.setState({
+          headerTitle: '正在刷新。。。',
+        });
+        this.requestData();
+      } else if (this.state.connectionInfo === 'NONE') { // 无网
+        ToastShort('请检查网络设置');
+        this.setState({
+          headerTitle: '请检查网络设置',
+        });
+      }
+    }
   };
 
-  netRequest=() => {
-    // NetInfo.isConnected.fetch().done((isConnected) => {
-    //   console.log('First, is ' + (isConnected ? 'online' : 'offline'));
-    //   if (isConnected) { // 有网
-    //     this.setState({
-    //       headerTitle: '正在刷新。。。',
-    //     });
-    //     this.requestData();
-    //   }else { // 无网
-    //     ToastShort('请检查网络设置');
-    //     this.setState({
-    //       headerTitle: '请检查网络设置',
-    //     });
-    //   }
-    // });
+  componentWillMount() {
+    NetInfo.addEventListener(
+      'connectionChange',
+      this.handleConnectionInfoChange
+    );
+    NetInfo.fetch().done(
+      (connectionInfo) => { this.setState({connectionInfo}); }
+    );
+  }
 
+  componentWillUnmount() {
+    NetInfo.removeEventListener(
+      'connectionChange',
+      this.handleConnectionInfoChange
+    );
+  }
 
-    // this.setState({
-    //   headerTitle: '正在刷新。。。',
-    // });
-    // this.requestData();
+  componentDidMount() {
+    this.onRefresh();
+  }
+
+  handleConnectionInfoChange=(connectionInfo) => {
+    this.setState({
+      connectionInfo,
+    });
   }
 
   render() {
@@ -198,7 +239,6 @@ export default class HomePage extends Component<{}> {
           renderItem={this.renderItem}
           onRefresh={this.onRefresh}
           refreshing={this.state.refreshing}
-
         />
       </View>
     );

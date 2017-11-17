@@ -91,7 +91,10 @@ const styles = StyleSheet.create({
     width: ScreenWidth,
     // backgroundColor:'orange',
   },
-
+  iconStyle: {
+    width: Platform.OS === 'ios' ? 30 : 25,
+    height: Platform.OS === 'ios' ? 30 : 25,
+  },
 });
 
 
@@ -104,12 +107,12 @@ export default class My extends Component<{}> {
       focused ?
         <Image
           source={require('../img/btn_mine_selected.png')}
-          style={{ width: 30, height: 30 }}
+          style={styles.iconStyle}
         />
         :
         <Image
           source={require('../img/btn_mine_normal.png')}
-          style={{ width: 30, height: 30 }}
+          style={styles.iconStyle}
         />
     ),
   };

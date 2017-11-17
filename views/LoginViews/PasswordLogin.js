@@ -76,6 +76,8 @@ export default class PasswordLogin extends Component<{}> {
     static navigationOptions = ({ navigation }) => ({
       title: navigation.state.params.title,
       headerBackTitle: null,
+      headerPressColorAndroid: 'white',
+
       // headerLeft:<Text>自定义返回按钮</Text>, //导航栏左侧item
     });
 

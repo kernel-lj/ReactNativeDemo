@@ -77,6 +77,7 @@ export default class PasswordLogin extends Component<{}> {
     title: navigation.state.params.title,
     headerBackTitle: null,
     // headerLeft:<Text>自定义返回按钮</Text>, //导航栏左侧item
+    headerPressColorAndroid: 'white', // 安卓返回按钮去掉水波纹效果
   });
 
   static defaultProps = {

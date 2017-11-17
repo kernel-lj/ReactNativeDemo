@@ -34,14 +34,18 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
     color: 'white',
     fontSize: 30,
-  }
+  },
+  iconStyle: {
+    width: Platform.OS === 'ios' ? 30 : 25,
+    height: Platform.OS === 'ios' ? 30 : 25,
+  },
 });
 
 export default class HomePage extends Component<{}> {
   static navigationOptions = {
     headerTitle: '首页', // 导航栏文字
     headerBackTitle: null, // 导航栏返回按钮文字
-    headerBackTitleStyle: { backgroundColor: 'red' },
+    // headerBackTitleStyle: { backgroundColor: 'red' },
     // header:null, //隐藏导航栏
     headerLeft: <Text>左边Header</Text>, // 导航栏左侧item
     headerRight: <Text onPress={() => { console.log(9999999); }} >右边Header</Text>, // 导航栏右侧item
@@ -51,6 +55,7 @@ export default class HomePage extends Component<{}> {
     tabBarLabel: '首页',
     // tabBarIcon:<Image source={require("../img/btn_home_normal.png")}
     //                   style={{height:30,width:30,}}></Image>,
+
     tabBarIcon: ({ focused }) => (
       focused ?
         <Image
@@ -60,7 +65,7 @@ export default class HomePage extends Component<{}> {
           /* eslint-enable global-require */
 
           // source={require('../img/btn_home_selected.png')}
-          style={{width: 30, height: 30}}
+          style={styles.iconStyle}
         />
         :
         <Image
@@ -68,7 +73,7 @@ export default class HomePage extends Component<{}> {
           source={require('../img/btn_home_normal.png')}
           /* eslint-enable global-require */
           // source={require('../img/btn_home_normal.png')}
-          style={{width: 30, height: 30}}
+          style={styles.iconStyle}
         />
     ),
   };
@@ -90,7 +95,7 @@ export default class HomePage extends Component<{}> {
   }
 
   static defaultProps = {
-    requestUrl : 'http://capi.douyucdn.cn/api/v1/getVerticalRoom?limit=20&offset=',
+    requestUrl: 'http://capi.douyucdn.cn/api/v1/getVerticalRoom?limit=20&offset=',
   }
 
 

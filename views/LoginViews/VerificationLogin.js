@@ -75,8 +75,11 @@ export default class VerificationLogin extends Component<{}> {
     // 接收上一个页面传过来的title显示出来
     static navigationOptions = ({ navigation }) => ({
       title: navigation.state.params.title,
-      headerBackTitle: null,
+      // headerBackTitle: '返回1',
+      // headerBackTitleStyle: { backgroundColor: 'red' },
+      // headerTintColor: 'red',
       // headerLeft:<Text>自定义返回按钮</Text>, //导航栏左侧item
+      headerPressColorAndroid: 'white', // 安卓返回按钮去掉水波纹效果
     });
 
     static defaultProps = {

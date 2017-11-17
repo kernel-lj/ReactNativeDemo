@@ -14,6 +14,7 @@ import {
   Image,
   TouchableOpacity,
   Text,
+  Platform,
 } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -32,6 +33,10 @@ const styles = StyleSheet.create({
     color: '#333333',
     marginBottom: 5,
   },
+  iconStyle: {
+    width: Platform.OS === 'ios' ? 30 : 25,
+    height: Platform.OS === 'ios' ? 30 : 25,
+  },
 });
 
 
@@ -47,13 +52,13 @@ export default class Message extends Component<{}> {
         ? <Image
           // eslint-disable-next-line global-require
           source={require('../img/btn_chat_selected.png')}
-          style={{width: 30, height: 30}}
+          style={styles.iconStyle}
         />
         :
         <Image
           // eslint-disable-next-line global-require
           source={require('../img/btn_chat_normal.png')}
-          style={{ width: 30, height: 30 }}
+          style={styles.iconStyle}
         />
     ),
   };

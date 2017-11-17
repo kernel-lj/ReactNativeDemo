@@ -12,6 +12,7 @@ import {
   View,
   TouchableOpacity,
   Image,
+  Platform,
 } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -29,6 +30,10 @@ const styles = StyleSheet.create({
     color: '#333333',
     marginBottom: 5,
   },
+  iconStyle: {
+    width: Platform.OS === 'ios' ? 30 : 25,
+    height: Platform.OS === 'ios' ? 30 : 25,
+  },
 });
 
 export default class Tegong extends Component<{}> {
@@ -39,12 +44,12 @@ export default class Tegong extends Component<{}> {
         focused ?
           <Image
             source={require('../img/tegongSelected.png')}
-            style={{ width: 30, height: 30 }}
+            style={styles.iconStyle}
           />
           :
           <Image
             source={require('../img/tegong.png')}
-            style={{ width: 30, height: 30 }}
+            style={styles.iconStyle}
           />
       ),
     };

@@ -1,4 +1,4 @@
-import { AppRegistry } from 'react-native';
+import { AppRegistry, Platform } from 'react-native';
 
 import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/CardStackStyleInterpolator';
 
@@ -33,10 +33,25 @@ const TabNavigatorConfigs = {
 
   tabBarOptions: {
     activeTintColor: 'black', // 选中时的文字颜色
-    inactiveTintColor: 'green', // 未选中时的文字颜色
-    // showIcon: false, //不显示图标
-    // showLabel:false, //不显示文字
+    inactiveTintColor: 'black', // 未选中时的文字颜色
+    showIcon: true, // 显示图标 用在安卓上
+    // showLabel:false, // 不显示文字
+    indicatorStyle: { //取掉tabbar底部有个黄线
+      height: 0, // 如TabBar下面显示有一条线，可以设高度为0后隐藏
+    },
+    style: { // 单个tab 样式设置  适配安卓tabbar默认是蓝色1
+      backgroundColor: 'white', // TabBar 背景色
+      height: 44,
+    },
 
+    tabStyle: { // tab bar 样式设置   适配安卓tabbar默认是蓝色2 配合上面的1一起使用
+      backgroundColor: 'white', // TabBar 背景色
+      height: 44,
+    },
+    iconStyle: { // 单个tab内文字和图标的 样式设置
+      marginTop: 12,
+      marginBottom: -7,
+    },
     // activeBackgroundColor:'yellow', // 每个tabbarItem背景色
     // style:{backgroundColor:'green'}, // tabbar的样式
     // labelStyle:{color:'blue',fontSize:12}, //设置tabbarItem文字样式

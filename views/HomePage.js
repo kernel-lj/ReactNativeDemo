@@ -135,6 +135,7 @@ export default class HomePage extends Component<{}> {
           data: listData.concat(this.state.data),
           page: this.state.page + 1,
           headerTitle: '刷新完成。。。',
+          refreshing: false,
         });
       })
       .catch(err => {
@@ -148,7 +149,7 @@ export default class HomePage extends Component<{}> {
   );
 
   onRefresh=() => {
-    console.log(this.state.connectionInfo);
+    // console.log(this.state.connectionInfo);
     // 首次进来取不到当前的网络状态，为null，所以一秒后在执行一次onRefresh()方法就会取得当前有没有联网
     if (!this.state.connectionInfo) {
       setTimeout(()=>{
@@ -177,6 +178,7 @@ export default class HomePage extends Component<{}> {
       if ( this.state.connectionInfo === 'wifi'  || this.state.connectionInfo === 'mobile') { // 有网
         this.setState({
           headerTitle: '正在刷新。。。',
+          refreshing: true,
         });
         this.requestData();
       } else if (this.state.connectionInfo === 'none') { // 无网
@@ -190,6 +192,7 @@ export default class HomePage extends Component<{}> {
       if ( this.state.connectionInfo === 'WIFI'  || this.state.connectionInfo === 'MOBILE') { // 有网
         this.setState({
           headerTitle: '正在刷新。。。',
+          refreshing: true,
         });
         this.requestData();
       } else if (this.state.connectionInfo === 'NONE') { // 无网

@@ -14,11 +14,12 @@ import {
   Image,
   Platform,
 } from 'react-native';
+import TitleSegmentView from './TegongPageSubViews/TegongTitleSegment'
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#FAF8EF',
   },
   welcome: {
     fontSize: 20,
@@ -38,8 +39,10 @@ const styles = StyleSheet.create({
 
 export default class Tegong extends Component<{}> {
     static navigationOptions = {
-      headerTitle: '特工1',
+      header: null, // 隐藏导航栏
+      headerTitle: ' ',
       tabBarLabel: '特工',
+
       tabBarIcon: ({ focused }) => (
         focused ?
           <Image
@@ -55,16 +58,13 @@ export default class Tegong extends Component<{}> {
     };
 
     render() {
-      // eslint-disable-next-line react/prop-types
-      const { navigate } = this.props.navigation;
       return (
         <View style={styles.container}>
-          <TouchableOpacity
-            style={{ height: 60, backgroundColor: 'orange', justifyContent: 'center' }}
-            onPress={() => navigate('DetailVC', { title: '详情', des: '我是返回点击我' })}
-          >
-            <Text>点击进详情页</Text>
-          </TouchableOpacity>
+          <TitleSegmentView />
+
+          {/*<Text style={styles.welcome}>*/}
+            {/*Welcome to React Native!*/}
+          {/*</Text>*/}
         </View>
       );
     }

@@ -27,7 +27,7 @@ const TabRouteConfigs = {
 };
 
 const TabNavigatorConfigs = {
-  initialRouteName: 'HomePageVC',
+  initialRouteName: 'TeGongVC',
   tabBarPosition: 'bottom',
   lazy: true,
 

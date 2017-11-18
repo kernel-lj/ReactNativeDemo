@@ -11,7 +11,7 @@ import {
   Text,
   View,
   TouchableOpacity,
-  Image,
+  DeviceEventEmitter,
 } from 'react-native';
 
 Dimensions = require('Dimensions');
@@ -106,6 +106,8 @@ export default class TegongTitleSegment extends Component<{}> {
         fontWeight: 'bold',
       },
     });
+    DeviceEventEmitter.emit('clickTaoTaskBtn');
+
   }
 
   clickOnlineTegong=() => {
@@ -129,6 +131,7 @@ export default class TegongTitleSegment extends Component<{}> {
         fontWeight: 'normal',
       },
     });
+    DeviceEventEmitter.emit('clickOnlineTeGongBtn');
   }
 
 

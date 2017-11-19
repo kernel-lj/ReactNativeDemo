@@ -115,14 +115,6 @@ export default class HomePage extends Component<{}> {
 
 
   requestData = () => {
-    // alert('22223333');
-    // console.log(6666666);
-    // console.log(this.props.requestUrl + this.state.page);
-
-    // const url = 'https://www.baidu.com';
-    // console.log(6666666);
-    // let finalData = {};
-
     fetch(this.props.requestUrl + this.state.page)
       .then(res => {
         // console.log(res.json());
@@ -175,8 +167,6 @@ export default class HomePage extends Component<{}> {
         this.requestData();
       }
     }
-
-
 
 
     if (Platform.OS === 'ios'){

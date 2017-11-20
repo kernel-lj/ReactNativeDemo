@@ -18,10 +18,20 @@ import {
 } from 'react-native';
 import TitleSegmentView from './TegongPageSubViews/TegongTitleSegment';
 import { ToastShort } from '../utils/ToastUtil';
-import TaoTaskListCell from './TegongPageSubViews/TaoTaskListCell'
+import TaoTaskListCell from './TegongPageSubViews/TaoTaskListCell';
+
+Dimensions = require('Dimensions');
+
+ScreenWidth = Dimensions.get('window').width;
+ScreenHeight = Dimensions.get('window').height;
+ScreenScale = Dimensions.get('window').scale;
+
+
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
+    width: ScreenWidth,
+    height: ScreenHeight - 64 - 44,
     backgroundColor: '#FAF8EF',
   },
   welcome: {
@@ -57,7 +67,7 @@ export default class Tegong extends Component<{}> {
     headerTitle: ' ',
     tabBarLabel: '特工',
 
-    tabBarIcon: ({focused}) => (
+    tabBarIcon: ({ focused }) => (
       focused ?
         <Image
           source={require('../img/tegongSelected.png')}
@@ -72,7 +82,8 @@ export default class Tegong extends Component<{}> {
   };
 
   static defaultProps = {
-    requestUrl: 'https://jz-c-test.doumi.com/api/v3/client/tbk/lists?page=1&pageSize=20&channel=meizhuanggehu',
+    requestUrl: 'https://jz-c-test.doumi.com/api/v3/client/tbk/lists?page=',
+    requestArgs: '&pageSize=20&channel=meizhuanggehu',
   }
 
   constructor(props) {
@@ -82,6 +93,10 @@ export default class Tegong extends Component<{}> {
       data: [],
       connectionInfo: null,
       refreshing: false,
+      headerTitle: '这是头部',
+      bottomTitle: '这是尾部',
+      page: 1,
+
 
     };
   }
@@ -103,16 +118,14 @@ export default class Tegong extends Component<{}> {
 
   };
 
-  componentWillUnmount(){
-    this.subscription.remove();
-  }
-
   componentWillUnmount() {
+    this.subscription.remove();
+
     NetInfo.removeEventListener(
       'connectionChange',
       this.handleConnectionInfoChange,
     );
-  }
+  };
 
 
   handleConnectionInfoChange=(connectionInfo) => {
@@ -136,19 +149,24 @@ export default class Tegong extends Component<{}> {
         ToastShort('请检查网络设置');
         this.setState({
           headerTitle: '请检查网络设置',
+          bottomTitle: '请检查网络设置',
+
         });
       } else if (this.state.connectionInfo.type === 'wifi') {
         this.setState({
           headerTitle: '正在刷新。。。',
+          bottomTitle: '正在刷新。。。',
+
         });
         this.requestData();
       }
     }
 
     if (Platform.OS === 'ios'){
-      if ( this.state.connectionInfo === 'wifi'  || this.state.connectionInfo === 'mobile') { // 有网
+      if ( this.state.connectionInfo === 'wifi' || this.state.connectionInfo === 'mobile') { // 有网
         this.setState({
           headerTitle: '正在刷新。。。',
+          bottomTitle: '正在刷新。。。',
           refreshing: true,
         });
         this.requestData();
@@ -156,13 +174,17 @@ export default class Tegong extends Component<{}> {
         ToastShort('请检查网络设置');
         this.setState({
           headerTitle: '请检查网络设置',
+          bottomTitle: '请检查网络设置',
+
         });
       }
 
     }else {
-      if ( this.state.connectionInfo === 'WIFI'  || this.state.connectionInfo === 'MOBILE') { // 有网
+      if ( this.state.connectionInfo === 'WIFI' || this.state.connectionInfo === 'MOBILE') { // 有网
         this.setState({
           headerTitle: '正在刷新。。。',
+          bottomTitle: '正在刷新。。。',
+
           refreshing: true,
         });
         this.requestData();
@@ -170,6 +192,8 @@ export default class Tegong extends Component<{}> {
         ToastShort('请检查网络设置');
         this.setState({
           headerTitle: '请检查网络设置',
+          bottomTitle: '请检查网络设置',
+
         });
       }
     }
@@ -177,8 +201,7 @@ export default class Tegong extends Component<{}> {
   };
 
   requestData = () => {
-    let url =  'https://jz-c-test.doumi.com/api/v3/client/tbk/lists?page=1&pageSize=20&channel=meizhuanggehu'
-
+    let url = this.props.requestUrl + this.state.page + this.props.requestArgs;
     fetch(url, {
       // method: 'POST',
       headers: {
@@ -196,9 +219,13 @@ export default class Tegong extends Component<{}> {
 
         this.setState({
           // data: [...this.state.data, ...res],
-          data: listData.concat(this.state.data),
+          // data: listData.concat(this.state.data),
+          data: this.state.data.concat(listData),
+          //
           page: this.state.page + 1,
           headerTitle: '刷新完成。。。',
+          bottomTitle: '刷新完成。。。',
+
           refreshing: false,
         });
       })
@@ -223,7 +250,13 @@ export default class Tegong extends Component<{}> {
   renderItem = ({ item, index }) => (
     <TaoTaskListCell data={item} index={index} />
   );
-  render() {
+
+  onEndReached=() => {
+    this.onRefresh();
+  }
+
+
+render() {
     return (
       <View style={styles.container}>
         <TitleSegmentView />
@@ -253,6 +286,9 @@ export default class Tegong extends Component<{}> {
                 renderItem={this.renderItem}
                 onRefresh={this.onRefresh}
                 refreshing={this.state.refreshing}
+
+                onEndReached={this.onEndReached}
+                onEndReachedThreshold={0.1}
               />
 
 

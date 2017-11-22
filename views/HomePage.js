@@ -102,7 +102,7 @@ export default class HomePage extends Component<{}> {
   clickHeadPortraitView = () => {
     // const { navigate } = this.props.navigation;
     // eslint-disable-next-line no-unused-vars
-    const {navigate} = this.props.navigation;
+    const { navigate } = this.props.navigation;
     navigate(
       'VerificationLoginVC',
       {
@@ -116,11 +116,7 @@ export default class HomePage extends Component<{}> {
 
   requestData = () => {
     fetch(this.props.requestUrl + this.state.page)
-      .then(res => {
-        // console.log(res.json());
-
-        return res.json();
-      })
+      .then(res => res.json())
       .then(res => {
         // console.log(77777);
         // console.log(typeof(res.data));
@@ -151,7 +147,7 @@ export default class HomePage extends Component<{}> {
     if (!this.state.connectionInfo) {
       setTimeout(()=>{
         this.onRefresh();
-      },1);
+      }, 1);
     }else {
       // 解决 1.当前处于WiFi状态，断开WiFi后，不显示请检查网络设置的问题
       //     2.当前处于无网状态，断开WiFi后 后,不刷新的问题
@@ -169,8 +165,8 @@ export default class HomePage extends Component<{}> {
     }
 
 
-    if (Platform.OS === 'ios'){
-      if ( this.state.connectionInfo === 'wifi'  || this.state.connectionInfo === 'mobile') { // 有网
+    if (Platform.OS === 'ios') {
+      if ( this.state.connectionInfo === 'wifi' || this.state.connectionInfo === 'mobile') { // 有网
         this.setState({
           headerTitle: '正在刷新。。。',
           refreshing: true,
@@ -184,7 +180,7 @@ export default class HomePage extends Component<{}> {
       }
 
     }else {
-      if ( this.state.connectionInfo === 'WIFI'  || this.state.connectionInfo === 'MOBILE') { // 有网
+      if ( this.state.connectionInfo === 'WIFI' || this.state.connectionInfo === 'MOBILE') { // 有网
         this.setState({
           headerTitle: '正在刷新。。。',
           refreshing: true,
@@ -202,22 +198,20 @@ export default class HomePage extends Component<{}> {
   componentWillMount() {
     NetInfo.addEventListener(
       'connectionChange',
-      this.handleConnectionInfoChange
+      this.handleConnectionInfoChange,
     );
-    NetInfo.fetch().done(
-      (connectionInfo) => { this.setState({connectionInfo}); }
-    );
+    NetInfo.fetch().done((connectionInfo) => { this.setState({ connectionInfo }); });
+  }
+
+  componentDidMount() {
+    this.onRefresh();
   }
 
   componentWillUnmount() {
     NetInfo.removeEventListener(
       'connectionChange',
-      this.handleConnectionInfoChange
+      this.handleConnectionInfoChange,
     );
-  }
-
-  componentDidMount() {
-    this.onRefresh();
   }
 
   handleConnectionInfoChange=(connectionInfo) => {

@@ -28,9 +28,9 @@ ScreenScale = Dimensions.get('window').scale;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    // width: ScreenWidth,
-    // height: ScreenHeight - 64 - 44,
+    // flex: 1,
+    width: ScreenWidth,
+    height: ScreenHeight - 64 - 44,
     backgroundColor: '#FAF8EF',
   },
   welcome: {
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     height: Platform.OS === 'ios' ? 30 : 25,
   },
   taoTaskViewStyle: {
-    backgroundColor: 'red',
+    // backgroundColor: 'red',
     flex: 1,
   },
   onlineTeGongViewStyle: {
@@ -66,7 +66,7 @@ export default class Tegong extends Component<{}> {
     headerTitle: ' ',
     tabBarLabel: '特工',
 
-    tabBarIcon: ({focused}) => (
+    tabBarIcon: ({ focused }) => (
       focused ?
         <Image
           source={require('../img/tegongSelected.png')}
@@ -96,6 +96,7 @@ export default class Tegong extends Component<{}> {
       bottomTitle: '这是尾部',
       page: 1,
       connectionInfo: null,
+      requestPullDown: true,
     };
   }
 
@@ -104,8 +105,8 @@ export default class Tegong extends Component<{}> {
       'connectionChange',
       this.handleConnectionInfoChange,
     );
-    NetInfo.fetch().done((connectionInfo) => {
-      this.setState({connectionInfo});
+    NetInfo.getConnectionInfo().done((connectionInfo) => {
+      this.setState({ connectionInfo });
     });
   }
 
@@ -125,76 +126,68 @@ export default class Tegong extends Component<{}> {
       this.handleConnectionInfoChange,
     );
   }
-
-
   onRefresh = () => {
-    this.requestData();
-
     // console.log(this.state.connectionInfo);
-    // // 首次进来取不到当前的网络状态，为null，所以一秒后在执行一次onRefresh()方法就会取得当前有没有联网
-    // if (!this.state.connectionInfo) {
-    //   setTimeout(() => {
-    //     this.onRefresh();
-    //   }, 100);
-    // } else {
-    //   // console.log(this.state.connectionInfo);
-    //   // 解决 1.当前处于WiFi状态，断开WiFi后，不显示请检查网络设置的问题
-    //   //     2.当前处于无网状态，断开WiFi后 后,不刷新的问题
-    //   if (this.state.connectionInfo.type === 'none') {
-    //     ToastShort('请检查网络设置');
-    //     this.setState({
-    //       headerTitle: '请检查网络设置',
-    //       bottomTitle: '请检查网络设置',
-    //     });
-    //   } else if (this.state.connectionInfo.type === 'wifi') {
-    //     // alert('09090');
-    //
-    //     this.setState({
-    //       headerTitle: '正在刷新。。。',
-    //       bottomTitle: '正在刷新。。。',
-    //       // refreshing: true,
-    //     });
-    //     console.log('111111');
-    //
-    //     this.requestData();
-    //     console.log(this.state.connectionInfo);
-    //
-    //   }
-    // }
-    //
-    // if (Platform.OS === 'ios') {
-    //   if (this.state.connectionInfo === 'wifi' || this.state.connectionInfo === 'mobile') { // 有网
-    //     this.setState({
-    //       headerTitle: '正在刷新。。。',
-    //       bottomTitle: '正在刷新。。。',
-    //       refreshing: true,
-    //     });
-    //     this.requestData();
-    //   } else if (this.state.connectionInfo === 'none') { // 无网
-    //     ToastShort('请检查网络设置');
-    //     this.setState({
-    //       headerTitle: '请检查网络设置',
-    //       bottomTitle: '请检查网络设置',
-    //
-    //     });
-    //   }
-    // } else {
-    //   if (this.state.connectionInfo === 'WIFI' || this.state.connectionInfo === 'MOBILE') { // 有网
-    //     this.setState({
-    //       headerTitle: '正在刷新。。。',
-    //       bottomTitle: '正在刷新。。。',
-    //
-    //       refreshing: true,
-    //     });
-    //     this.requestData();
-    //   } else if (this.state.connectionInfo === 'NONE') { // 无网
-    //     ToastShort('请检查网络设置');
-    //     this.setState({
-    //       headerTitle: '请检查网络设置',
-    //       bottomTitle: '请检查网络设置',
-    //     });
-    //   }
-    // }
+    // 首次进来取不到当前的网络状态，为null，所以一秒后在执行一次onRefresh()方法就会取得当前有没有联网
+    if (!this.state.connectionInfo) {
+      setTimeout(() => {
+        this.onRefresh();
+      }, 100);
+    } else {
+      // console.log(this.state.connectionInfo);
+      // 解决 1.当前处于WiFi状态，断开WiFi后，不显示请检查网络设置的问题
+      //     2.当前处于无网状态，断开WiFi后 后,不刷新的问题
+      if (this.state.connectionInfo.type === 'none') {
+        ToastShort('请检查网络设置');
+        this.setState({
+          headerTitle: '请检查网络设置',
+          bottomTitle: '请检查网络设置',
+        });
+      } else if (this.state.connectionInfo.type === 'wifi') {
+        // alert('09090');
+
+        this.setState({
+          headerTitle: '正在刷新。。。',
+          bottomTitle: '正在刷新。。。',
+          // refreshing: true,
+        });
+        this.requestData();
+      }
+    }
+
+    if (Platform.OS === 'ios') {
+      if (this.state.connectionInfo === 'wifi' || this.state.connectionInfo === 'mobile') { // 有网
+        this.setState({
+          headerTitle: '正在刷新。。。',
+          bottomTitle: '正在刷新。。。',
+          refreshing: true,
+        });
+        this.requestData();
+      } else if (this.state.connectionInfo === 'none') { // 无网
+        ToastShort('请检查网络设置');
+        this.setState({
+          headerTitle: '请检查网络设置',
+          bottomTitle: '请检查网络设置',
+
+        });
+      }
+    } else {
+      if (this.state.connectionInfo === 'WIFI' || this.state.connectionInfo === 'MOBILE') { // 有网
+        this.setState({
+          headerTitle: '正在刷新。。。',
+          bottomTitle: '正在刷新。。。',
+
+          refreshing: true,
+        });
+        this.requestData();
+      } else if (this.state.connectionInfo === 'NONE') { // 无网
+        ToastShort('请检查网络设置');
+        this.setState({
+          headerTitle: '请检查网络设置',
+          bottomTitle: '请检查网络设置',
+        });
+      }
+    }
   };
 
   handleConnectionInfoChange = (connectionInfo) => {
@@ -204,49 +197,30 @@ export default class Tegong extends Component<{}> {
   };
 
   requestData = () => {
-    //
-    // fetch(this.props.requestUrl + this.state.page)
-    //   .then(res => res.json())
-    //   .then(res => {
-    //     // console.log(77777);
-    //     // console.log(typeof(res.data));
-    //     const listData = res.data;
-    //     // finalData.push(listData);
-    //
-    //     this.setState({
-    //       // data: [...this.state.data, ...res],
-    //       data: listData.concat(this.state.data),
-    //       page: this.state.page + 1,
-    //       headerTitle: '刷新完成。。。',
-    //       refreshing: false,
-    //     });
-    //   })
-    //   .catch(err => {
-    //     // this.setState({ error: err, loading: false, refreshing: false});
-    //   });
-
-    // console.log(this.props.requestUrl + this.state.page + this.props.requestArgs);
-    // 'https://jz-c-test.doumi.com/api/v3/client/tbk/lists?page=1&pageSize=20&channel=meizhuanggehu',
-    //https://jz-c-test.doumi.com/GET/api/v3/client/tbk/lists?page=1&pageSize=20&channel=meizhuanggehu
-    fetch('https://jz-c-test.doumi.com/api/v3/client/tbk/lists?page=1&pageSize=20&channel=meizhuanggehu/',
-      {
-      // method: 'GET',
-      headers: { 'accessToken': 'LmRlaxBOMt/BPKMG+ibiUJ0nJjjpXqI/AWkzNr8WJyUdciY43O5CavQ55pafA3K0zFfT7Zi6' },
+    let url;
+    if (this.state.requestPullDown) {
+      url = this.props.requestUrl + '1' + this.props.requestArgs;
+    } else if (!this.state.requestPullDown) {
+      url = this.props.requestUrl + this.state.page + this.props.requestArgs;
     }
-    )
-      .then((response) => {
-        console.log(response.headers);
-        console.log('222222');
-        response.json();
-      })
+    fetch(url, {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'accessToken': 'LmRlaxBOMt/BPKMG+ibiUJ0nJjjpXqI/AWkzNr8WJyUdciY43O5CavQ55pafA3K0zFfT7Zi6',
+      },
+    })
+      .then(res => res.json())
       .then((res) => {
-        console.log('111111');
-        console.log(res.json());
+        // console.log('111111');
+        // console.log(res.data);
         const listData = res.data;
+        // console.log(listData);
         this.setState({
           // data: [...this.state.data, ...res],
-          // data: listData.concat(this.state.data),
-          data: this.state.data.concat(listData),
+          data: listData.concat(this.state.data),
+          // data: this.state.data.concat(listData),
+          // data: listData,
           page: this.state.page + 1,
           headerTitle: '刷新完成。。。',
           bottomTitle: '刷新完成。。。',
@@ -254,6 +228,8 @@ export default class Tegong extends Component<{}> {
         });
       })
       .catch(err => {
+        // console.log('999999999');
+        console.log(err);
         // this.setState({ error: err, loading: false, refreshing: false});
       });
   };
@@ -319,28 +295,9 @@ export default class Tegong extends Component<{}> {
                 renderItem={this.renderItem}
                 onRefresh={this.onRefresh}
                 refreshing={this.state.refreshing}
-
-                // onEndReached={this.onEndReached}
-                // onEndReachedThreshold={0.1}
+                onEndReached={this.onEndReached}
+                onEndReachedThreshold={0.1}
               />
-
-
-              {/*<Text>aaaaaaaaaaaaaaa</Text>*/}
-
-              {/*<FlatList*/}
-              {/*data={[*/}
-              {/*{key: 'Devin'},*/}
-              {/*{key: 'Jackson'},*/}
-              {/*{key: 'James'},*/}
-              {/*{key: 'Joel'},*/}
-              {/*{key: 'John'},*/}
-              {/*{key: 'Jillian'},*/}
-              {/*{key: 'Jimmy'},*/}
-              {/*{key: 'Julie'},*/}
-              {/*]}*/}
-              {/*renderItem={({item}) => <Text style={styles.item}>{item.key}</Text>}*/}
-              {/*/>*/}
-
             </View>
             :
             <View
@@ -351,8 +308,6 @@ export default class Tegong extends Component<{}> {
             </View>
           }
         </View>
-
-
       </View>
     );
   }

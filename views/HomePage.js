@@ -200,7 +200,7 @@ export default class HomePage extends Component<{}> {
       'connectionChange',
       this.handleConnectionInfoChange,
     );
-    NetInfo.fetch().done((connectionInfo) => { this.setState({ connectionInfo }); });
+    NetInfo.getConnectionInfo().done((connectionInfo) => { this.setState({ connectionInfo }); });
   }
 
   componentDidMount() {

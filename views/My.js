@@ -204,8 +204,65 @@ export default class My extends Component<{}> {
      </View>
    );
 
+  componentDidMount() {
+    this.requestData();
+  }
 
-   render() {
+  requestData = () => {
+    // alert('000--');
+    url = 'https://jz-c.doumi.com/api/v2/client/login?platform=android&platform=android'
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'accessToken': 'LmRlaxBOMt/BPKMG+ibiUJ0nJjjpXqI/AWkzNr8WJyUdciY43O5CavQ55pafA3K0zFfT7Zi6',
+      },
+      body: JSON.stringify({
+        mobile: '17416666666',
+        password: 'LmRlaxAS7mdmFIkS',
+        idfa: 'LmRlaxDhXIRGahQ1J0xCFuj5v2LPAfxihr1kctGtZSGY6V5SL+Fcw5Y=',
+      }),
+    })
+      .then(res => res.json())
+      .then((res) => {
+        console.log('111111');
+        console.log(res);
+      })
+      .catch(err => {
+        // console.log('999999999');
+        console.log(err);
+        // this.setState({ error: err, loading: false, refreshing: false});
+      });
+  };
+
+  getUserInfo = () => {
+    url = 'https://jz-c.doumi.com/api/v2/client/ucenter/index?platform=android&token=';
+    fetch(url, {
+      // method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'accessToken': 'LmRlaxBOMt/BPKMG+ibiUJ0nJjjpXqI/AWkzNr8WJyUdciY43O5CavQ55pafA3K0zFfT7Zi6',
+        'info': 'LmRlaxBiKkOTUHwiho38vnI/IUk21s6mZyTZlwK9LG4y76Tp95JtNqIQvbIC/Qw7Fxum6feSbTaiEL2yI6zN+2eP8XwDkS1F5dDdYjao6R4iT5Ec8xbKczKwmYfDTZy+k9/xbDN2+mNyYO1yNvh5i3cb1ei3UyoF59H6lw==',
+        'cookie': '_gl_tracker=%257B%2522sid%2522%253A%252275975559457%2522%257D; dm_uuid=7ad865d4-cf69-11e7-b792-1418774d6214; ganji_jz_ac_citydomain=eyJpdiI6InAwYVJ2TmJLODR1SFg5WTNrbmlzc0E9PSIsInZhbHVlIjoibm1tOFN4YVo4SUlPVzhDN0Y1akY3QT09IiwibWFjIjoiN2VmZGViOGE2YmVkNjUzOWVlMjIyZmFjNWY1ODU2YzIxYmY2YTZiNjVjMDc3NWYxZmVmYTMyMjgxY2ZhZmQ0MCJ9; dm_userinfo=9108848; ganji_jz_wc_jzuid=eyJpdiI6Im82NGo0VkhMdHBqaW1EQmF6M0lLenc9PSIsInZhbHVlIjoiaEFOaFM1ZUxCQ1grWnIzYWdVWHR1Zz09IiwibWFjIjoiYjlkYzJkMmEwYWQyZmJlY2MwYzA5ODE5OWJjNWY0YTkxYmE4NWRjZTQ2NmNkZDkwMTI4YmVjYjJjOGJmOGYwMiJ9; i_citydomain=bj; doumi_melon=eyJpdiI6Ijh3eG5YOHcrd3VpVU9OTXFWM2w0a1E9PSIsInZhbHVlIjoiSk9cLzNlTEYzekpzZG1xdGVwZXlENEV2YlB6TTdRRjNTaVBLXC9UanRkck9MbE5xQ1FyZm8wdkhcL29UUTc4SVlPM3JWeDlTcm1WNnRhQ3c0b29jd0JodlE9PSIsIm1hYyI6IjIzZDQ4NmU4NTI3MzZhOTVhNjgxNDg2OGFjNGI2YmUwMjkzMGRmMjcwZjJjNGFlMzViOTMxZDUyNGRjNmQwYzQifQ%3D%3D',
+
+      },
+    })
+      .then(res => res.json())
+      .then((res) => {
+        console.log('111111');
+        console.log(res);
+      })
+      .catch(err => {
+        // console.log('999999999');
+        console.log(err);
+        // this.setState({ error: err, loading: false, refreshing: false});
+      });
+  };
+
+
+  render() {
      return (
        <ScrollView
          // alwaysBounceVertical={true}

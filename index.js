@@ -27,16 +27,18 @@ const TabRouteConfigs = {
 };
 
 const TabNavigatorConfigs = {
-  initialRouteName: 'TeGongVC',
+  initialRouteName: 'MyVC',
   tabBarPosition: 'bottom',
   lazy: true,
+  swipeEnabled: false, // 安卓禁止滑动切换tab
+  // animationEnabled: false, // 点击选项卡切换界面是否需要动画
 
   tabBarOptions: {
     activeTintColor: 'black', // 选中时的文字颜色
     inactiveTintColor: 'black', // 未选中时的文字颜色
     showIcon: true, // 显示图标 用在安卓上
     // showLabel:false, // 不显示文字
-    indicatorStyle: { //取掉tabbar底部有个黄线
+    indicatorStyle: { // 取掉tabbar底部有个黄线
       height: 0, // 如TabBar下面显示有一条线，可以设高度为0后隐藏
     },
     style: { // 单个tab 样式设置  适配安卓tabbar默认是蓝色1

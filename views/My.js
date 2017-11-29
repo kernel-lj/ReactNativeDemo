@@ -121,6 +121,11 @@ export default class My extends Component<{}> {
     title: '验证码登录11',
   };
 
+  constructor(props) {
+    super(props);
+    this.state = { name1: '111155' };
+  }
+
   addTopView=() => (
     <ImageBackground source={require('../img/bg_personal.png')} style={styles.imageStyle}>
       <TouchableOpacity
@@ -148,7 +153,13 @@ export default class My extends Component<{}> {
         title: this.props.title,
         name: 'liutianliang',
         keys: { A_key: this.props.navigation.state.key },
+        callback: (data1) => {
+          this.setState({
+            name1: data1,
+          });
+        },
       },
+
     );
     // // console.log(state.key);
     //
@@ -170,7 +181,9 @@ export default class My extends Component<{}> {
 
   addSectionOne=() => (
     <View style={styles.setction1}>
-      <MyCommonCell title="我的兼职" />
+      {/*<MyCommonCell title="我的兼职" />*/}
+      <MyCommonCell title={this.state.name1} />
+
       <MyCommonCell title="我的简历" />
       <MyCommonCell title="我的收藏" />
       <MyCommonCell title="我的偏好" />
@@ -204,9 +217,16 @@ export default class My extends Component<{}> {
      </View>
    );
 
-  componentDidMount() {
-    this.requestData();
+   componentDidMount() {
+     this.requestData();
+   }
+
+  componentDidUpdate() {
+    console.log('888');
+    console.log(this.state.name1);
   }
+
+
 
   requestData = () => {
     // alert('000--');

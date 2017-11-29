@@ -87,9 +87,10 @@ export default class VerificationLogin extends Component<{}> {
       subTitle: '无法收取验证码?',
     }
 
-    // static  propTypes = {
-    //     name:PropTypes.string.isRequired,
-    // }
+  constructor(props) {
+    super(props);
+    this.state = { name1: '111155' };
+  }
 
 
     rendeBottomView() {
@@ -119,21 +120,11 @@ export default class VerificationLogin extends Component<{}> {
 
 
     jumpToPasswordView11=() => {
-      const { goBack } = this.props.navigation;
-      // navigate(
-      //   'PassWordLoginVC',
-      //   {
-      //     title: '密码登录',
-      //     keys:
-      //       {
-      //         ...this.props.navigation.state.params.keys,
-      //         B_key: this.props.navigation.state.key,
-      //       },
-      //   },
-      // );
+      const { goBack, state } = this.props.navigation;
       console.log(6666);
-      this.props.navigation.goBack();
-      // console.log(state.params);
+      state.params.callback('huidiao');
+
+      goBack();
     }
 
     jumpToPasswordView=() => {
@@ -147,6 +138,11 @@ export default class VerificationLogin extends Component<{}> {
               ...this.props.navigation.state.params.keys,
               B_key: this.props.navigation.state.key,
             },
+          callback: (data1) => {
+            this.setState({
+              name1: data1,
+            });
+          },
         },
       );
       console.log(6666);

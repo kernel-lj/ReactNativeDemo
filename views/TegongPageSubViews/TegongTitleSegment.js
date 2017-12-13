@@ -15,7 +15,6 @@ import {
 } from 'react-native';
 
 Dimensions = require('Dimensions');
-
 ScreenWidth = Dimensions.get('window').width;
 ScreenHeight = Dimensions.get('window').height;
 ScreenScale = Dimensions.get('window').scale;
@@ -112,7 +111,9 @@ export default class TegongTitleSegment extends Component<{}> {
 
   clickOnlineTegong=() => {
     this.setState ({
+      underLine2: !this.state.underLine2,
       underLine1: !this.state.underLine1,
+
     });
     if (this.state.underLine2) {
       this.setState ({

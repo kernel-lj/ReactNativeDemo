@@ -30,8 +30,10 @@ const styles = StyleSheet.create({
   container: {
     // flex: 1,
     width: ScreenWidth,
-    height: ScreenHeight - 64 - 44,
-    backgroundColor: '#FAF8EF',
+    // height: ScreenHeight - 64 - 44,
+    // backgroundColor: '#FAF8EF',
+    backgroundColor: 'white',
+
   },
   welcome: {
     fontSize: 20,
@@ -258,7 +260,7 @@ export default class Tegong extends Component<{}> {
   render() {
     return (
       <View style={styles.container}>
-        <TitleSegmentView/>
+        <TitleSegmentView />
         <View style={styles.baseViewStyle}>
 
           {this.state.taoTaskViewIsShow
@@ -297,6 +299,8 @@ export default class Tegong extends Component<{}> {
                 refreshing={this.state.refreshing}
                 onEndReached={this.onEndReached}
                 onEndReachedThreshold={0.1}
+                ItemSeparatorComponent={() => <View style={{ height: 1, backgroundColor: 'rgba(0, 0, 0, 0.2)' }} />}
+
               />
             </View>
             :

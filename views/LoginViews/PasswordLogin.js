@@ -12,11 +12,16 @@ import {
   View,
   TextInput,
   TouchableOpacity,
+  DeviceEventEmitter,
 } from 'react-native';
 import { NavigationActions } from 'react-navigation'
+import UserInfo from '.././UserInfo';
+const DMUserInfo = new UserInfo();
+
+import { ToastShort } from '../../utils/ToastUtil';
+
 
 Dimensions = require('Dimensions');
-
 ScreenWidth = Dimensions.get('window').width;
 ScreenHeight = Dimensions.get('window').height;
 ScreenScale = Dimensions.get('window').scale;
@@ -85,7 +90,7 @@ export default class PasswordLogin extends Component<{}> {
     static defaultProps = {
       title: '注册新账号',
       subTitle: '忘记密码?',
-    }
+    };
 
     rendeBottomView() {
       if (this.props.isPasswordLoginView){
@@ -170,13 +175,46 @@ export default class PasswordLogin extends Component<{}> {
     );
   }
 
-  renderLoginBtnView() {
-    return (
+  renderLoginBtnView = () => (
+    <TouchableOpacity onPress={this.requestData}>
       <View style={styles.LonginBtnStyle}>
         <Text>登录</Text>
       </View>
-    );
-  }
+    </TouchableOpacity>
+);
+
+  requestData = () => {
+    // alert('000--');
+    url = 'https://jz-c.doumi.com/api/v2/client/login?platform=android&platform=android'
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'accessToken': 'LmRlaxBOMt/BPKMG+ibiUJ0nJjjpXqI/AWkzNr8WJyUdciY43O5CavQ55pafA3K0zFfT7Zi6',
+      },
+      body: JSON.stringify({
+        mobile: '17416666666',
+        password: 'LmRlaxAS7mdmFIkS',
+        idfa: 'LmRlaxDhXIRGahQ1J0xCFuj5v2LPAfxihr1kctGtZSGY6V5SL+Fcw5Y=',
+      }),
+    })
+      .then(res => res.json())
+      .then((res) => {
+        DMUserInfo.isLogin = true;
+        // console.log(res);
+        ToastShort('登录成功');
+        DeviceEventEmitter.emit('loginSuccess');
+
+        const { goBack, state } = this.props.navigation;
+        goBack(state.params.keys.B_key); // 修改B_key 可以返回到不同的页面
+        console.log(state.params);
+      })
+      .catch(err => {
+        console.log(err);
+        // this.setState({ error: err, loading: false, refreshing: false});
+      });
+  };
 
   render() {
     return (

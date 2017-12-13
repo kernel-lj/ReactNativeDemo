@@ -27,7 +27,7 @@ const TabRouteConfigs = {
 };
 
 const TabNavigatorConfigs = {
-  initialRouteName: 'MyVC',
+  initialRouteName: 'TeGongVC',
   tabBarPosition: 'bottom',
   lazy: true,
   swipeEnabled: false, // 安卓禁止滑动切换tab

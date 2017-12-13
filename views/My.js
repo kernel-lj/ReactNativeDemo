@@ -15,15 +15,14 @@ import {
   ScrollView,
   TouchableOpacity,
   ImageBackground,
+  DeviceEventEmitter,
 } from 'react-native';
 
 import MyCommonCell from './MySubViews/MyCommonCell';
+import UserInfo from './UserInfo';
+import DimenUtil from '../utils/DimenUtil';
 
-Dimensions = require('Dimensions');
-
-ScreenWidth = Dimensions.get('window').width;
-ScreenHeight = Dimensions.get('window').height;
-ScreenScale = Dimensions.get('window').scale;
+const DMUserInfo = new UserInfo();
 
 const styles = StyleSheet.create({
   container: {
@@ -34,7 +33,7 @@ const styles = StyleSheet.create({
     // backgroundColor:'red'
   },
   imageStyle: {
-    width: ScreenWidth,
+    width: DimenUtil.size.width,
     height: 133,
   },
 
@@ -76,19 +75,19 @@ const styles = StyleSheet.create({
   setction1: {
     marginTop: 10,
     height: 44 * 4,
-    width: ScreenWidth,
+    width: DimenUtil.size.width,
     // backgroundColor:'blue',
   },
   setction2: {
     marginTop: 10,
     height: 44 * 3,
-    width: ScreenWidth,
+    width: DimenUtil.size.width,
     // backgroundColor:'green',
   },
   setction3: {
     marginTop: 10,
     height: 44 * 3,
-    width: ScreenWidth,
+    width: DimenUtil.size.width,
     // backgroundColor:'orange',
   },
   iconStyle: {
@@ -119,11 +118,17 @@ export default class My extends Component<{}> {
 
   static defaultProps = {
     title: '验证码登录11',
+    picUrl: 'http://cdn.doumistatic.com/48,6cff5b92bd9ed0.jpg@base@tag=imgScale&h=160&w=160',
   };
 
   constructor(props) {
     super(props);
-    this.state = { name1: '111155' };
+    this.state = {
+      name1: '111155',
+      imageUrl: '',
+      existImageUrl: false,
+      nickName: '',
+    };
   }
 
   addTopView=() => (
@@ -133,11 +138,33 @@ export default class My extends Component<{}> {
         onPress={() => this.clickHeadPortraitView()}
       >
         <View style={styles.subView}>
-          <Image source={require('../img/default.png')} style={styles.headPortraitStyle} />
 
-          <Text style={styles.labelStyle}>
-            登录/注册
-          </Text>
+          {this.state.existImageUrl ?
+
+            <Image
+              source={{uri: this.state.imageUrl}}
+              style={styles.headPortraitStyle}
+              ref={(c) => this.headIcon = c}
+            />
+            :
+            <Image
+              source={require('../img/default.png')}
+              style={styles.headPortraitStyle}
+            />
+          }
+          
+          {this.state.existImageUrl ?
+
+            <Text style={styles.labelStyle}>
+              { this.state.nickName }
+            </Text>
+            :
+            <Text style={styles.labelStyle}>
+              登录/注册
+            </Text>
+          }
+
+          
         </View>
       </TouchableOpacity>
     </ImageBackground>
@@ -146,21 +173,24 @@ export default class My extends Component<{}> {
   clickHeadPortraitView=() => {
     // const { navigate } = this.props.navigation;
     // eslint-disable-next-line no-unused-vars
-    const { navigate } = this.props.navigation;
-    navigate(
-      'VerificationLoginVC',
-      {
-        title: this.props.title,
-        name: 'liutianliang',
-        keys: { A_key: this.props.navigation.state.key },
-        callback: (data1) => {
-          this.setState({
-            name1: data1,
-          });
+    // if (!DMUserInfo.getIsLogin()) { // 如果用户没有登录再跳转了，登录了就不跳转到登录界面
+      const { navigate } = this.props.navigation;
+      navigate(
+        'VerificationLoginVC',
+        {
+          title: this.props.title,
+          name: 'liutianliang',
+          keys: { A_key: this.props.navigation.state.key },
+          callback: (data1) => {
+            this.setState({
+              name1: data1,
+            });
+          },
         },
-      },
 
-    );
+      );
+    // }
+
     // // console.log(state.key);
     //
     // const navigateAction = NavigationActions.navigate({
@@ -217,13 +247,33 @@ export default class My extends Component<{}> {
      </View>
    );
 
+  componentWillMount() {
+    // console.log('1111111')
+    // console.log('9999999999');
+    // console.log(DMUserInfo.getIsLogin());
+    this.subscription = DeviceEventEmitter.addListener('loginSuccess', this.getUserInfo);
+
+  }
+  // clickOnlineTeGongBtn = () => {
+  //  alert('1111');
+  // };
    componentDidMount() {
-     this.requestData();
+
+     // this.requestData();
    }
 
+  componentWillReceiveProps() {
+
+  }
+
+  shouldComponentUpdate() {
+    return true;
+  }
+   // 当状态机改变时会走componentDidUpdate()方法
   componentDidUpdate() {
-    console.log('888');
-    console.log(this.state.name1);
+    // console.log('888');
+    // console.log(this.state.name1);
+    // alert('9090');
   }
 
 
@@ -246,11 +296,10 @@ export default class My extends Component<{}> {
     })
       .then(res => res.json())
       .then((res) => {
-        console.log('111111');
+        DMUserInfo.isLogin = true;
         console.log(res);
       })
       .catch(err => {
-        // console.log('999999999');
         console.log(err);
         // this.setState({ error: err, loading: false, refreshing: false});
       });
@@ -273,6 +322,12 @@ export default class My extends Component<{}> {
       .then((res) => {
         console.log('111111');
         console.log(res);
+        this.setState({
+          imageUrl: res.logo,
+          existImageUrl: true,
+          nickName: res.nick_name,
+        })
+        
       })
       .catch(err => {
         // console.log('999999999');

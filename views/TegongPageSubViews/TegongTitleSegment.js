@@ -140,7 +140,7 @@ export default class TegongTitleSegment extends Component<{}> {
     return (
       <View style={styles.container}>
 
-        <TouchableOpacity onPress={()=> this.clickTaoTask()} activeOpacity={1}>
+        <TouchableOpacity onPress={() => this.clickTaoTask()} activeOpacity={1}>
           <View style={styles.leftViewStyle}>
             <Text style={styles.leftTextNormalTextStyle} ref={(c) => this.taotaskLabel = c}>淘任务</Text>
             {this.state.underLine1 ? null : <View style={styles.underLineStyle1}></View>}

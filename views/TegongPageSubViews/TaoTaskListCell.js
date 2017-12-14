@@ -8,6 +8,7 @@ import {
   Image,
   TouchableOpacity,
   Alert,
+  DeviceEventEmitter,
 } from 'react-native';
 
 Dimensions = require('Dimensions');
@@ -102,8 +103,11 @@ class TaoTaskListCell extends Component {
   };
 
   pressItem1 = () => {
-    Alert.alert('share');
+    // Alert.alert('share');
+    DeviceEventEmitter.emit('clickTaoTaskShareBtn');
   };
+
+
 
   render() {
     return (

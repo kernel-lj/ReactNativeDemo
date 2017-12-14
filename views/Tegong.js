@@ -15,9 +15,13 @@ import {
   Platform,
   FlatList,
   NetInfo,
+  TouchableOpacity,
+  Button,
+  Modal,
+  TouchableHighlight,
 } from 'react-native';
 import TitleSegmentView from './TegongPageSubViews/TegongTitleSegment';
-import {ToastShort} from '../utils/ToastUtil';
+import { ToastShort } from '../utils/ToastUtil';
 import TaoTaskListCell from './TegongPageSubViews/TaoTaskListCell';
 
 Dimensions = require('Dimensions');
@@ -33,6 +37,7 @@ const styles = StyleSheet.create({
     // height: ScreenHeight - 64 - 44,
     // backgroundColor: '#FAF8EF',
     backgroundColor: 'white',
+    // flexDirection: 'row',
 
   },
   welcome: {
@@ -60,6 +65,15 @@ const styles = StyleSheet.create({
   baseViewStyle: {
     flexDirection: 'row',
   },
+
+  modal: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  text: {
+    color: "black",
+    fontSize: 22
+  }
 });
 
 export default class Tegong extends Component<{}> {
@@ -99,7 +113,49 @@ export default class Tegong extends Component<{}> {
       page: 1,
       connectionInfo: null,
       requestPullDown: true,
+      windowViewIsShow: false,
+      modalVisible: false,
     };
+  }
+
+  showModal = () => {
+    // alert('000');
+    // this.refs.modal1.open();
+    // <View>
+    // </View>
+    this.setState(
+      {
+        modalVisible: true,
+      }
+    )
+  }
+
+  // showWindow = () =>(
+  //   <Modal
+  //     animationType={"slide"}
+  //     transparent={false}
+  //     visible={this.state.modalVisible}
+  //     onRequestClose={() => {
+  //       alert("Modal has been closed.")
+  //     }}
+  //   >
+  //     <View style={{marginTop: 22}}>
+  //       <View>
+  //         <Text>Hello World!</Text>
+  //
+  //         <TouchableHighlight onPress={() => {
+  //           this.setModalVisible(!this.state.modalVisible)
+  //         }}>
+  //           <Text>Hide Modal</Text>
+  //         </TouchableHighlight>
+  //
+  //       </View>
+  //     </View>
+  //   </Modal>
+  // )
+
+  setModalVisible = (visible) => {
+    this.setState({modalVisible: visible});
   }
 
   componentWillMount() {
@@ -118,6 +174,8 @@ export default class Tegong extends Component<{}> {
 
     this.subscription = DeviceEventEmitter.addListener('clickOnlineTeGongBtn', this.clickOnlineTeGongBtn);
     this.subscription = DeviceEventEmitter.addListener('clickTaoTaskBtn', this.clickTaoTaskBtn);
+    this.subscription = DeviceEventEmitter.addListener('clickTaoTaskShareBtn', this.showModal);
+
   }
 
   componentWillUnmount() {
@@ -248,70 +306,115 @@ export default class Tegong extends Component<{}> {
     });
   };
 
+  clickTaoTaskShareBtn = () => {
+    this.setState({
+      windowViewIsShow: true,
+    });
+  }
+
   renderItem = ({item, index}) => (
     <TaoTaskListCell data={item} index={index}/>
   );
 
   onEndReached = () => {
     this.onRefresh();
-  }
+  };
 
+  renderFlatView = () => (
+    <View>
+      <TitleSegmentView />
+      <View style={styles.baseViewStyle}>
+        {this.state.taoTaskViewIsShow
+          ? <View
+            style={styles.taoTaskViewStyle}
+            // ref={(c) => this.taoTaskView = c}
+          >
+            <FlatList
+              data={this.state.data}
+              ListHeaderComponent={() => <Text style={{
+                textAlign: 'center',
+                textAlignVertical: 'center',
+                height: 30,
+                backgroundColor: 'orange',
+              }}>
+                {this.state.headerTitle}
+              </Text>
+              }
 
-  render() {
-    return (
-      <View style={styles.container}>
-        <TitleSegmentView />
-        <View style={styles.baseViewStyle}>
-
-          {this.state.taoTaskViewIsShow
-            ? <View
-              style={styles.taoTaskViewStyle}
-              // ref={(c) => this.taoTaskView = c}
-            >
-              <FlatList
-                data={this.state.data}
-                ListHeaderComponent={() => <Text style={{
+              ListFooterComponent={
+                () => <Text style={{
                   textAlign: 'center',
                   textAlignVertical: 'center',
                   height: 30,
                   backgroundColor: 'orange',
                 }}>
-                  {this.state.headerTitle}
-                </Text>
-                }
+                  {this.state.bottomTitle}
+                </Text>}
+              // ItemSeparatorComponent={() => <View style={{ height: 0.5, backgroundColor: '#E5E5E5' }} />}
+              // 为每个cell生成一个index
+              // renderItem={({ item, index }) => <Text style={styles.item}>{index}</Text>}
+              //  renderItem={({ item }) => <HomePageCell data={item} index={item.id} />}
+              keyExtractor={(item, index) => index}
+              renderItem={this.renderItem}
+              onRefresh={this.onRefresh}
+              refreshing={this.state.refreshing}
+              onEndReached={this.onEndReached}
+              onEndReachedThreshold={0.1}
+              ItemSeparatorComponent={() => <View style={{ height: 1, backgroundColor: 'rgba(0, 0, 0, 0.00001)' }} />}
 
-                ListFooterComponent={
-                  () => <Text style={{
-                    textAlign: 'center',
-                    textAlignVertical: 'center',
-                    height: 30,
-                    backgroundColor: 'orange',
-                  }}>
-                    {this.state.bottomTitle}
-                  </Text>}
-                // ItemSeparatorComponent={() => <View style={{ height: 0.5, backgroundColor: '#E5E5E5' }} />}
-                // 为每个cell生成一个index
-                // renderItem={({ item, index }) => <Text style={styles.item}>{index}</Text>}
-                //  renderItem={({ item }) => <HomePageCell data={item} index={item.id} />}
-                keyExtractor={(item, index) => index}
-                renderItem={this.renderItem}
-                onRefresh={this.onRefresh}
-                refreshing={this.state.refreshing}
-                onEndReached={this.onEndReached}
-                onEndReachedThreshold={0.1}
-                ItemSeparatorComponent={() => <View style={{ height: 1, backgroundColor: 'rgba(0, 0, 0, 0.2)' }} />}
+            />
+          </View>
+          :
+          <View
+            style={styles.onlineTeGongViewStyle}
+            ref={(c) => this.onlineTeGongView = c}
+          >
+            <Text>bbbbbbbbbbbb</Text>
+          </View>
+        }
+      </View>
+    </View>
+  );
 
-              />
-            </View>
-            :
-            <View
-              style={styles.onlineTeGongViewStyle}
-              ref={(c) => this.onlineTeGongView = c}
-            >
-              <Text>bbbbbbbbbbbb</Text>
-            </View>
-          }
+  clickWindowView = () => {
+    this.setState({
+      windowViewIsShow: false,
+    });
+  }
+
+  renderWindowView = () => (
+    <Modal
+      animationType={"none"}
+      transparent={true}
+      visible={this.state.modalVisible}
+      // onRequestClose={() => {
+      //   alert("Modal has been closed.")
+      // }}
+    >
+      <View style={{ marginTop:0, backgroundColor: 'rgba(0,0,0,0.2)', flex: 1, height: 1000 }}>
+        <View>
+          <Text style={{backgroundColor: 'red', height: 200, marginTop: 30}}>淘任务分享!</Text>
+
+          <TouchableHighlight onPress={() => {
+            this.setModalVisible(!this.state.modalVisible)
+          }}>
+            <Text style={{ marginTop: 210,height: 100 ,backgroundColor:'green'}}>Hide Modal</Text>
+          </TouchableHighlight>
+
         </View>
+      </View>
+    </Modal>
+  );
+
+
+  render() {
+    return (
+      <View style={styles.container}>
+
+        {/* {this.state.windowViewIsShow ? this.showWindowView() : this.renderFlatView()} */}
+        {this.renderFlatView()}
+
+        {this.renderWindowView()}
       </View>
     );
   }

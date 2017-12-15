@@ -104,7 +104,14 @@ class TaoTaskListCell extends Component {
 
   pressItem1 = () => {
     // Alert.alert('share');
-    DeviceEventEmitter.emit('clickTaoTaskShareBtn');
+    DeviceEventEmitter.emit('clickTaoTaskShareBtn',
+      '疯狂抢购中 羊绒衫女 高领毛衣 冬季纯色长袖修身\n' +
+      '【在售价】358.00元\n' +
+      '【券后价】48.00元\n' +
+      '【淘口令】￥WriW08HSmPw￥\n' +
+      '【商品详情】http://www.ishanggongzuo.com.cn/tbk/share/3415351复制这条信息，打开【手机淘宝】即可查看');
+    // Alert.alert(this.props.index.toString());
+
   };
 
 

@@ -116,6 +116,7 @@ export default class Tegong extends Component<{}> {
       requestPullDown: true,
       windowViewIsShow: false,
       modalVisible: false,
+      shareString: '',
     };
   }
 
@@ -124,6 +125,7 @@ export default class Tegong extends Component<{}> {
     // this.refs.modal1.open();
     // <View>
     // </View>
+
     this.setState(
       {
         modalVisible: true,
@@ -172,7 +174,16 @@ export default class Tegong extends Component<{}> {
 
     this.subscription = DeviceEventEmitter.addListener('clickOnlineTeGongBtn', this.clickOnlineTeGongBtn);
     this.subscription = DeviceEventEmitter.addListener('clickTaoTaskBtn', this.clickTaoTaskBtn);
-    this.subscription = DeviceEventEmitter.addListener('clickTaoTaskShareBtn', this.showModal);
+    // this.subscription = DeviceEventEmitter.addListener('clickTaoTaskShareBtn', this.showModal);
+    // this.subscription = DeviceEventEmitter.addListener('clickTaoTaskShareBtn', (info) => {
+    //   // console.log(info);
+    //   this.setState(
+    //     {
+    //       modalVisible: true,
+    //       shareString: info,
+    //     }
+    //   )
+    // });
 
   }
 

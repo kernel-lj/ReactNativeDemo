@@ -15,7 +15,8 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
-  TextInput,
+  Clipboard,
+  Linking,
 } from 'react-native';
 
 import SharBtn from './DMShareBtn';
@@ -25,6 +26,8 @@ export default class DmTaoTaskShareWindowView extends Component<{}> {
   static defaultProps = {
     animationType: 'none',
     transparent: true,
+    clipboardString: '',
+    taoCodeString: '',
   };
 
   constructor(props) {
@@ -33,11 +36,21 @@ export default class DmTaoTaskShareWindowView extends Component<{}> {
     this.state = {
       modalVisible: false,
       isShow: true,
+      shareString: '',
     };
   }
 
   componentDidMount() {
-    this.subscription = DeviceEventEmitter.addListener('clickTaoTaskShareBtn', this.showModal);
+    // this.subscription = DeviceEventEmitter.addListener('clickTaoTaskShareBtn', this.showModal(into));
+    this.subscription = DeviceEventEmitter.addListener('clickTaoTaskShareBtn', (info) => {
+      // console.log(info);
+      this.setState(
+        {
+          modalVisible: true,
+          shareString: info,
+        }
+      )
+    });
   };
 
   showModal = () => {
@@ -50,6 +63,38 @@ export default class DmTaoTaskShareWindowView extends Component<{}> {
     });
   };
 
+  clickWeChatBtn = () => {
+    // alert('I am weChat');
+    Clipboard.setString(this.state.shareString);
+    Linking.canOpenURL('weixin://').then(supported => { // weixin://  alipay://
+      if (supported) {
+        Linking.openURL('weixin://');
+      } else {
+        alert('请先安装微信');
+      }
+    });
+  };
+  clickQQBtn = () => {
+    // alert('I am QQ');
+    Linking.canOpenURL('weixin://').then(supported => { // weixin://  alipay://
+      if (supported) {
+        Linking.openURL('weixin://');
+      } else {
+        alert('请先安装QQ');
+      }
+    });
+  };
+  clickWeChatTimelineBtn = () => {
+    // alert('I am weChatTimeline');
+    Linking.canOpenURL('weixin://').then(supported => { // weixin://  alipay://
+      if (supported) {
+        Linking.openURL('weixin://');
+      } else {
+        alert('请先安装微信');
+      }
+    });
+  };
+
   // rgba(0,0,0,0.3)
 
   render() {
@@ -58,6 +103,7 @@ export default class DmTaoTaskShareWindowView extends Component<{}> {
         animationType={this.props.animationType}
         transparent={this.props.transparent}
         visible={this.state.modalVisible}
+        onRequestClose={() => {console.log("Modal has been closed.")}}
       >
         <View style={{marginTop: 0, backgroundColor: 'rgba(0,0,0,0.3)', flex: 1, alignItems: 'center', justifyContent: 'center' }}>
           {/*<TouchableOpacity activeOpacity={1} onPress={() => {*/}
@@ -72,12 +118,13 @@ export default class DmTaoTaskShareWindowView extends Component<{}> {
                 <Image style={styles.imageStyle} source={require('../../img/taokouling.png')}>
                   <ScrollView style={styles.scrollViewStyle} showsVerticalScrollIndicator={false}>
                       <Text  style={styles.textStringStyle}>
-                        疯狂抢购中 羊绒衫女 高领毛衣 冬季纯色长袖修身{'\n'}
-                        【在售价】358.00元{'\n'}
-                        【券后价】48.00元{'\n'}
-                        【淘口令】￥WriW08HSmPw￥{'\n'}
-                        【商品详情】http://www.ishanggongzuo.com.cn/tbk/share/3415351复制这条信息，打开【手机淘宝】即可查看
-                      </Text>
+                         {/*疯狂抢购中 羊绒衫女 高领毛衣 冬季纯色长袖修身{'\n'}*/}
+                        {/*【在售价】358.00元{'\n'}*/}
+                        {/*【券后价】48.00元{'\n'}*/}
+                        {/*【淘口令】￥WriW08HSmPw￥{'\n'}*/}
+                        {/*【商品详情】http://www.ishanggongzuo.com.cn/tbk/share/3415351复制这条信息，打开【手机淘宝】即可查看*/}
+                        {this.state.shareString}
+                        </Text>
                   </ScrollView>
                 </Image>
 
@@ -94,15 +141,23 @@ export default class DmTaoTaskShareWindowView extends Component<{}> {
                   {/*<SharBtn source={require('../../img/微信tbk.png')} title="微信" />*/}
 
                   <View style={styles.shareLeftView}>
+                    <TouchableOpacity onPress={this.clickWeChatBtn}>
                     <SharBtn source={require('../../img/微信tbk.png')} title="微信" />
+                    </TouchableOpacity>
                   </View>
                   <View style={styles.shareMiddleView}>
+                    <TouchableOpacity onPress={this.clickQQBtn}>
+
                     <SharBtn source={require('../../img/qqtbk.png')} title="QQ" />
+                    </TouchableOpacity>
 
                   </View>
                   <View style={styles.shareRightView}>
                     <View style={{width: 10,height: 72}}></View>
+                    <TouchableOpacity onPress={this.clickWeChatTimelineBtn}>
                     <SharBtn source={require('../../img/朋友圈tbk.png')} title="朋友圈" />
+                    </TouchableOpacity>
+
                   </View>
 
                 </View>

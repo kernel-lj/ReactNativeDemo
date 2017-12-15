@@ -69,6 +69,9 @@ export default class DmTaoTaskShareWindowView extends Component<{}> {
     Linking.canOpenURL('weixin://').then(supported => { // weixin://  alipay://
       if (supported) {
         Linking.openURL('weixin://');
+        setTimeout(() => {
+          this.clickCloseBtn();
+        }, 1000);
       } else {
         alert('请先安装微信');
       }
@@ -79,6 +82,9 @@ export default class DmTaoTaskShareWindowView extends Component<{}> {
     Linking.canOpenURL('weixin://').then(supported => { // weixin://  alipay://
       if (supported) {
         Linking.openURL('weixin://');
+        setTimeout(() => {
+          this.clickCloseBtn();
+        }, 1000);
       } else {
         alert('请先安装QQ');
       }
@@ -89,12 +95,20 @@ export default class DmTaoTaskShareWindowView extends Component<{}> {
     Linking.canOpenURL('weixin://').then(supported => { // weixin://  alipay://
       if (supported) {
         Linking.openURL('weixin://');
+        setTimeout(() => {
+          this.clickCloseBtn();
+        }, 1000);
       } else {
         alert('请先安装微信');
       }
     });
   };
 
+  clickCloseBtn = () => {
+    this.setState({
+      modalVisible: false,
+    });
+  }
   // rgba(0,0,0,0.3)
 
   render() {
@@ -165,11 +179,7 @@ export default class DmTaoTaskShareWindowView extends Component<{}> {
             </View>
           {/*</TouchableOpacity>*/}
 
-          <TouchableOpacity activeOpacity={1} onPress={() => {
-            this.setState({
-              modalVisible: false,
-            });
-          }}>
+          <TouchableOpacity activeOpacity={1} onPress={this.clickCloseBtn}>
             <Image style={styles.closeImageStyle} source={require('../../img/叉号.png')} ></Image>
             </TouchableOpacity>
         </View>

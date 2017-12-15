@@ -23,6 +23,7 @@ import {
 import TitleSegmentView from './TegongPageSubViews/TegongTitleSegment';
 import { ToastShort } from '../utils/ToastUtil';
 import TaoTaskListCell from './TegongPageSubViews/TaoTaskListCell';
+import WindowView from './TegongPageSubViews/DmTaoTaskShareWindowView';
 
 Dimensions = require('Dimensions');
 ScreenWidth = Dimensions.get('window').width;
@@ -72,8 +73,8 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "black",
-    fontSize: 22
-  }
+    fontSize: 22,
+  },
 });
 
 export default class Tegong extends Component<{}> {
@@ -154,9 +155,6 @@ export default class Tegong extends Component<{}> {
   //   </Modal>
   // )
 
-  setModalVisible = (visible) => {
-    this.setState({modalVisible: visible});
-  }
 
   componentWillMount() {
     NetInfo.addEventListener(
@@ -306,11 +304,7 @@ export default class Tegong extends Component<{}> {
     });
   };
 
-  clickTaoTaskShareBtn = () => {
-    this.setState({
-      windowViewIsShow: true,
-    });
-  }
+
 
   renderItem = ({item, index}) => (
     <TaoTaskListCell data={item} index={index}/>
@@ -376,35 +370,26 @@ export default class Tegong extends Component<{}> {
     </View>
   );
 
-  clickWindowView = () => {
-    this.setState({
-      windowViewIsShow: false,
-    });
-  }
 
-  renderWindowView = () => (
-    <Modal
-      animationType={"none"}
-      transparent={true}
-      visible={this.state.modalVisible}
-      // onRequestClose={() => {
-      //   alert("Modal has been closed.")
-      // }}
-    >
-      <View style={{ marginTop:0, backgroundColor: 'rgba(0,0,0,0.2)', flex: 1, height: 1000 }}>
-        <View>
-          <Text style={{backgroundColor: 'red', height: 200, marginTop: 30}}>淘任务分享!</Text>
-
-          <TouchableHighlight onPress={() => {
-            this.setModalVisible(!this.state.modalVisible)
-          }}>
-            <Text style={{ marginTop: 210,height: 100 ,backgroundColor:'green'}}>Hide Modal</Text>
-          </TouchableHighlight>
-
-        </View>
-      </View>
-    </Modal>
-  );
+  // renderWindowView = () => (
+  //   <Modal
+  //     animationType="none"
+  //     transparent={true}
+  //     visible={this.state.modalVisible}
+  //     // onRequestClose={() => {
+  //     //   alert("Modal has been closed.")
+  //     // }}
+  //   >
+  //     <View style={{marginTop: 0, backgroundColor: 'rgba(0,0,0,0.2)', flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+  //       <TouchableHighlight onPress={() => { this.setModalVisible(!this.state.modalVisible); }}>
+  //         <View style={styles.windowViewStyle}>
+  //           <Text>分享商品到</Text>
+  //         </View>
+  //       </TouchableHighlight>
+  //
+  //     </View>
+  //   </Modal>
+  // );
 
 
   render() {
@@ -414,7 +399,10 @@ export default class Tegong extends Component<{}> {
         {/* {this.state.windowViewIsShow ? this.showWindowView() : this.renderFlatView()} */}
         {this.renderFlatView()}
 
-        {this.renderWindowView()}
+        {/*{this.renderWindowView()}*/}
+        {/*<WindowView modalState={this.state.modalVisible} />*/}
+        <WindowView />
+
       </View>
     );
   }
